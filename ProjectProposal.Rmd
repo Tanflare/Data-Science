@@ -1,6 +1,6 @@
 ---
-title: "Project Proposal"
-author: "Zach Morales, Pete Schultz, Tanush Sampson"
+title: "Final Project"
+author: "Zach Morales, Pete Schultz, Tanush Samson"
 date: "2/25/2019"
 output: html_document
 ---
@@ -23,6 +23,9 @@ Our data will be sourced from Kaggle. This is a large hockey database that gives
   + This gives us detailed stats as to how the team performed overall, per year  
 * TeamsPost.csv  
   + Detailed stats of team performance in the post season  
+  
+
+TEST
 
 
 ## Variables
