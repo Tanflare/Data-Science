@@ -1,0 +1,129 @@
+---
+title: "Project Proposal"
+author: "Zach Morales, Pete Schultz, Tanush Sampson"
+date: "2/25/2019"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Data
+
+Our data will be sourced from Kaggle. This is a large hockey database that gives us information on players, teams, and coaches from 1909 to 2011. We will be needing to use multiple datasets for this database.  
+
+* Master.csv  
+  + Used to match up player and coach IDs to their actual name, position, date of birth, nickname, or any other relevant personal information  
+* Coaches.csv  
+  + Gives us information such as coach ID, year, record, and postseason record  
+* AwardsCoaches.csv  
+  + Tells us coach ID, award won, and year  
+* Teams.csv  
+  + This gives us detailed stats as to how the team performed overall, per year  
+* TeamsPost.csv  
+  + Detailed stats of team performance in the post season  
+
+
+## Variables
+
+* The pre-existing variables from **Master.csv** that we'll be using include the following:  
+  + playerID  
+  + coachID  
+  + birthYear  
+  + nameNick  
+  + pos  
+  
+* The pre-existing variables from **Coaches.csv** that we'll be using include the following:  
+  + coachID  
+  + year  
+  + W  
+  + L  
+  + T  
+  + PostW  
+  + PostL  
+  + PostT  
+  + tmID  
+  + stint  
+  
+* From this, we will create the following variables:
+  + number_of_years_in_league: number of years each coach has been in league
+  + reg_overal_record:  overall regular season record for each coach
+  + post_overal_record: overall post-season record for each coach
+  
+* The pre-existing variables from **Teams.csv** that we'll be using include the following:  
+  + coachID  
+  + award  
+  + year  
+  + tmID  
+  + rank  
+  + W  
+  + L  
+  + T  
+  + PKC  
+  + GA  
+  + PPG 
+  + GF
+
+* From this, we will create the following variables:  
+  + reg_team_record:  regular season record for each team each year  
+  + reg_team_performance: ratio of games won to total games played for each team each year  
+  
+* The pre-existing variables from **TeamsPost.csv** that we'll be using include the following:  
+  + year  
+  + tmID  
+  + W  
+  + L  
+  + T
+  
+* From this, we will create the following variables:  
+  + post_team_record:  post-season record for each team each year 
+  + post_team_performance: ratio of games won to total games played for each team each year  
+  
+## Questions
+
+Our project with be focused mostly on coaching performance. The coaches are the ones who are under the most pressure (as they end up getting fired when they fail), so we are trying to see how they preform under different conditions.  
+
+1. How does the team performance change after the coach wins an award?  
+
+2. How does the team performance change after winning a Stanley Cup?  
+
+3. What coach coached the same team for the longest number of years?   Consecutively?
+
+4. What coach won the most stanley cups?  
+
+5. What coach had the best regular season?  
+
+6. Is there any correlation between regular season and post-season performance?  
+
+7. Coaching tactics that that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?  
+
+...
+
+## Outline
+
+Using the above variable to answer the questions we have proposed, we will be utilizing a couple different types of data visualization methods.They include the following:  
+
+1. A scatter plot between games won and year for a random sample of coaches that have won awards.(using color aesthetics to differentiate between pre-award and post-award).  
+
+2. Same as above, just swapping teams for coaches and awards for the Stanley Cup.  
+
+3. A tibble output will allow us to answer this question + a bar plot.  
+
+4. A tibble output will allow us to answer this question + a bar plot. 
+
+5. Planning to go year by year plotting the teams that have the best regular season point total. 
+
+6. A scatter plot and a trend line betwen post season performance and regular season performance. How does the best team in the regular season do during the playoffs?  
+
+7. Defensively oriented will be defined as having a  high PK% and/or low GA whereas offensively oriented will be defined as having a high PPG and/or high GF. From this, we will create a scatter plot between regular season wins and regular season loses faceting between the different coaching strategies.  
+
+## Progress Report 
+
+So far we have downloaded the datasets locally and started to tidy and transform the data. A large part of the analysis will be the joining of the datasets and mutation of variables that we still need to finish. The analysis and data visualization, which we haven't started, shouldn't take up too much time once we have the data ready.  
+
+We are using GitHub, compile the work that we have done individually.  
+
+## Link to RStudio Cloud Project:
+
+https://rstudio.cloud/spaces/7916/project/232511
