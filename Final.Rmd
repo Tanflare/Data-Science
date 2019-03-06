@@ -53,6 +53,6 @@ awardCoaches_f <- left_join(awardCoaches2, masters_names)
 #Pete
 
 ```{r}
-uefyajhaisuk
+coaches1 = coaches %>% filter(lgID == "NHL")
 ```
 
