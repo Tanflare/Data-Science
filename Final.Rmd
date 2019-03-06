@@ -34,11 +34,17 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 #Tanush
 ```{r}
 Test
+HEllo 8yuewugfh oeuafh 
 ```
 
 #Zach
 ```{r}
 awardCoaches2 <- awardCoaches %>% 
   filter()
+```
+#Pete
+
+```{r}
+uefyajhaisuk
 ```
 
