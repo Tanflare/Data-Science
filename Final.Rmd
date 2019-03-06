@@ -38,13 +38,7 @@ Test
 
 #Zach
 ```{r}
-asdfhsa
-asdf
-asdf
-
-asd
-f
-asdf
-a
+awardCoaches2 <- awardCoaches %>% 
+  filter()
 ```
 
