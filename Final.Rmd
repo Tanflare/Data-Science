@@ -33,15 +33,25 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 
 #Tanush
 ```{r}
-Test
-HEllo 8yuewugfh oeuafh 
+#selecting NHL
+teams_F <- teams %>% filter(lgID == "NHL")
+
+teams_F %>% filter(tmID=="MTL" | tmID=="LAK" | tmID=="BOS") %>% ggplot(aes(year, W)) + geom_point(aes(color=tmID)) + geom_line(aes(color=tmID), alpha =0.6) + labs(y="Wins")
 ```
 
 #Zach
 ```{r}
 awardCoaches2 <- awardCoaches %>% 
-  filter()
+  filter(award == "Jack Adams") %>% 
+  select(-note)
+
+masters_names <- masters %>% 
+  select(coachID, firstName, lastName)
+
+awardCoaches_f <- left_join(awardCoaches2, masters_names)
 ```
+
+
 #Pete
 
 ```{r}
