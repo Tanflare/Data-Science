@@ -51,6 +51,6 @@ a
 #Pete
 
 ```{r}
-uefyajhaisuk
+coaches1 = coaches %>% filter(lgID == "NHL")
 ```
 
