@@ -39,14 +39,8 @@ HEllo 8yuewugfh oeuafh
 
 #Zach
 ```{r}
-asdfhsa
-asdf
-asdf
-
-asd
-f
-asdf
-a
+awardCoaches2 <- awardCoaches %>% 
+  filter()
 ```
 #Pete
 
