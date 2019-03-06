@@ -40,8 +40,16 @@ HEllo 8yuewugfh oeuafh
 #Zach
 ```{r}
 awardCoaches2 <- awardCoaches %>% 
-  filter()
+  filter(award == "Jack Adams") %>% 
+  select(-note)
+
+masters_names <- masters %>% 
+  select(coachID, firstName, lastName)
+
+awardCoaches_f <- left_join(awardCoaches2, masters_names)
 ```
+
+
 #Pete
 
 ```{r}
