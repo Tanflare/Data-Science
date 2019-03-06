@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(rvest)
 ```
 
 ## Data 
@@ -21,5 +22,17 @@ coaches <- read_csv("Data/Coaches.csv")
 awardCoaches <- read_csv("Data/AwardsCoaches.csv")
 teams <- read_csv("Data/Teams.csv")
 teamsPost <- read_csv("Data/TeamsPost.csv")
+
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_Stanley_Cup_champions")
+
+SC <- html_nodes(wiki, css = "table")
+
+sc_data <- html_table(SC, header = T, fill = T)[[3]]
+                 
+```
+
+#Tanush
+```{r}
+Test
 ```
 
