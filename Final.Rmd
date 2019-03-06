@@ -41,13 +41,20 @@ teams_F %>% filter(tmID=="MTL" | tmID=="LAK" | tmID=="BOS") %>% ggplot(aes(year,
 
 #Zach
 ```{r}
-asdfhsa
-asdf
-asdf
+awardCoaches2 <- awardCoaches %>% 
+  filter(award == "Jack Adams") %>% 
+  select(-note)
 
-asd
-f
-asdf
-a
+masters_names <- masters %>% 
+  select(coachID, firstName, lastName)
+
+awardCoaches_f <- left_join(awardCoaches2, masters_names)
+```
+
+
+#Pete
+
+```{r}
+coaches1 = coaches %>% filter(lgID == "NHL")
 ```
 
