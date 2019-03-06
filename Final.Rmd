@@ -1,0 +1,21 @@
+---
+title: "Final"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+
+```{r}
+library(tidyverse)
+```
+
+## Data 
+
+```{r}
+masters <- read_csv("Data/Master.csv")
+```
+
