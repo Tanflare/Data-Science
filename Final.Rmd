@@ -45,6 +45,28 @@ awardCoaches2 <- awardCoaches %>%
 #Pete
 
 ```{r}
-coaches1 = coaches %>% filter(lgID == "NHL")
+coaches1 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(number_of_years_in_league = (1+max(year)-min(year)))
+
+coaches2 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(reg_overall_win = sum(w), reg_overall_loss = sum(l), reg_overall_tie = sum(t), reg_num_game = sum(g))
+
+coaches3 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(post_overall_win = sum(postw), post_overall_loss = sum(postl), post_overall_tie = sum(postt), post_num_game = sum(postg))
+
+coaches4 = coaches1 %>% 
+  full_join(coaches2, by = "coachID") %>%
+  full_join(coaches3, by = "coachID")
+
+coaches_f = coaches4 %>% 
+  mutate(reg_win_percent = (reg_overall_win/reg_num_game), post_win_percent = post_overall_win/post_num_game) %>% 
+  select(coachID:reg_overall_tie, reg_win_percent, post_overall_win:post_overall_tie,post_win_percent)
+  
 ```
 
