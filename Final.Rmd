@@ -17,5 +17,9 @@ library(tidyverse)
 
 ```{r}
 masters <- read_csv("Data/Master.csv")
+coaches <- read_csv("Data/Coaches.csv")
+awardCoaches <- read_csv("Data/AwardsCoaches.csv")
+teams <- read_csv("Data/Teams.csv")
+teamsPost <- read_csv("Data/TeamsPost.csv")
 ```
 
