@@ -77,6 +77,8 @@ coaches4 = coaches1 %>%
 coaches_f = coaches4 %>% 
   mutate(reg_win_percent = (reg_overall_win/reg_num_game), post_win_percent = post_overall_win/post_num_game) %>% 
   select(coachID:reg_overall_tie, reg_win_percent, post_overall_win:post_overall_tie,post_win_percent)
+
+coaches = coaches %>% filter(lgID == "NHL")
   
 ```
 
