@@ -109,17 +109,4 @@ question6b = coaches %>%
   filter(reg_win_percent > .5, is.na(reg_win_percent) == FALSE, is.na(post_win_percent) == FALSE)
 cor(question6b$post_win_percent,question6b$reg_win_percent)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Question 7
