@@ -37,7 +37,8 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 teams_F <- teams %>% filter(lgID == "NHL")
 teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
 
-teams_F %>% filter(tmID=="MTL" | tmID=="LAK" | tmID=="BOS") %>% ggplot(aes(year, W)) + geom_point(aes(color=tmID)) + geom_line(aes(color=tmID), alpha =0.6) + labs(y="Wins")
+# | tmID=="LAK" | tmID=="BOS"
+teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
 
 teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
 
@@ -87,6 +88,25 @@ coaches_f = coaches4 %>%
 
 #Question 1
 #Question 2
+
+How does the team performance change after winning a Stanley Cup?  
+
+```{r}
+#REGULAR SEASON
+
+teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="BOS") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "BOS Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="TOR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "TOR Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="DET") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "DET Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="NYR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "NYR Record")+ scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "CHI Record") + scale_color_discrete(name="Won SC?")
+```
+
 #Question 3
 #Question 4
 #Question 5
