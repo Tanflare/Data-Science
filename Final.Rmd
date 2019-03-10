@@ -111,4 +111,35 @@ teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(colo
 #Question 4
 #Question 5
 #Question 6
+Is there any correlation between regular season and post-season performance?  
+
+**answer**  
+It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.178 which implies that the relationship is VERY weak.  
+```{r}
+question6a = coaches %>% 
+  mutate(reg_win_percent = (w/g), post_win_percent = postw/postg) %>% 
+  filter(reg_win_percent > .5)
+
+ggplot(question6a, aes(reg_win_percent, post_win_percent))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE )
+
+question6b = coaches %>% 
+  mutate(reg_win_percent = (w/g), post_win_percent = postw/postg) %>% 
+  filter(reg_win_percent > .5, is.na(reg_win_percent) == FALSE, is.na(post_win_percent) == FALSE)
+cor(question6b$post_win_percent,question6b$reg_win_percent)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 #Question 7
