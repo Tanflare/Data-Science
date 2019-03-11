@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Packages
@@ -108,6 +108,14 @@ teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(colo
 ```
 
 #Question 3
+```{r}
+question3 = coaches_f %>% 
+  full_join(awardCoaches_f) %>% 
+  arrange(desc(reg_win_percent) %>% 
+  select(firstName,lastName,reg_win_percent)
+head(question3)
+```
+
 #Question 4
 #Question 5
 #Question 6
