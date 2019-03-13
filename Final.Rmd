@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Packages
@@ -33,8 +33,15 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 
 #Tanush
 ```{r}
-Test
-HEllo 8yuewugfh oeuafh 
+#selecting NHL
+teams_F <- teams %>% filter(lgID == "NHL")
+teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
+
+# | tmID=="LAK" | tmID=="BOS"
+teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
+
+teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
+
 ```
 
 #Zach
@@ -61,6 +68,112 @@ teamsPost2 <- teamsPost %>%
 #Pete
 
 ```{r}
-coaches1 = coaches %>% filter(lgID == "NHL")
+coaches = coaches %>% filter(lgID == "NHL")
+coaches1 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(number_of_years_in_league = (1+max(year)-min(year)))
+
+coaches2 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(reg_overall_win = sum(w), reg_overall_loss = sum(l), reg_overall_tie = sum(t), reg_num_game = sum(g))
+
+coaches3 = coaches %>% 
+  filter(lgID == "NHL") %>% 
+  group_by(coachID) %>% 
+  summarise(post_overall_win = sum(postw), post_overall_loss = sum(postl), post_overall_tie = sum(postt), post_num_game = sum(postg))
+
+coaches4 = coaches1 %>% 
+  full_join(coaches2, by = "coachID") %>%
+  full_join(coaches3, by = "coachID")
+
+coaches_f = coaches4 %>% 
+  mutate(reg_win_percent = (reg_overall_win/reg_num_game), post_win_percent = post_overall_win/post_num_game) %>% 
+  select(coachID:reg_overall_tie, reg_win_percent, post_overall_win:post_overall_tie,post_win_percent)
+
+```
+
+#Question 1  
+How does the team performance change after the coach wins an award?  
+**answer**  
+ 
+#Question 2  
+How does the team performance change after winning a Stanley Cup?  
+**answer**  
+```{r}
+#REGULAR SEASON
+
+teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="BOS") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "BOS Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="TOR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "TOR Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="DET") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "DET Record") + scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="NYR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "NYR Record")+ scale_color_discrete(name="Won SC?")
+
+teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "CHI Record") + scale_color_discrete(name="Won SC?")
+```
+
+#Question 3  
+What coach coached the same team for the longest number of years?  
+Consecutively?  
+**answer**  
+
+#Question 4  
+What coach won the most stanley cups?
+**answer**  
+```{r}
+
+```
+
+#Question 5  
+What coach had the best regular season? 
+**answer**  
+
+#Question 6  
+Is there any correlation between regular season and post-season performance?  
+**answer**  
+
+**answer**  
+It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.178 which implies that the relationship is VERY weak.  
+```{r}
+question6a = coaches %>% 
+  mutate(reg_win_percent = (w/g), post_win_percent = postw/postg) %>% 
+  filter(reg_win_percent > .5)
+
+ggplot(question6a, aes(reg_win_percent, post_win_percent))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE )
+
+question6b = coaches %>% 
+  mutate(reg_win_percent = (w/g), post_win_percent = postw/postg) %>% 
+  filter(reg_win_percent > .5, is.na(reg_win_percent) == FALSE, is.na(post_win_percent) == FALSE)
+cor(question6b$post_win_percent,question6b$reg_win_percent)
+```
+#Question 7  
+Coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?  
+**answer**  
+It appears that there are much more defensively oriented teams than offensively oriented team. This is likely to be due to fact that defensively oriented teams throughout history have had higher mean and median win percentages than offensively oriented team.  
+```{r}
+question7 <- teams_F %>% 
+  mutate(winpercentage = W/G, defense_tendancy = PKC/GA, offense_tendancy = PPG/GF) %>%
+  mutate(orientation = ifelse(defense_tendancy > 1.2 | offense_tendancy < .228, "Defense","Offense")) %>% 
+  filter(is.na(orientation)==FALSE)
+
+question7i = question7 %>% filter(orientation == "Defense") 
+mean(question7i$winpercentage)
+median(question7i$winpercentage)
+sd(question7i$winpercentage)
+question7ii = question7 %>% filter(orientation == "Offense") 
+mean(question7ii$winpercentage)
+median(question7ii$winpercentage)
+sd(question7ii$winpercentage)
+
+
+ggplot(question7, aes(x = winpercentage))+
+  geom_histogram(aes(fill = orientation))
 ```
 
