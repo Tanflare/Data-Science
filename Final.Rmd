@@ -133,17 +133,17 @@ scChamps <- teamsPost %>%
 
 #filtering reg season data
 regSeason <- teams %>%
-  select(year, tmID, Pts) %>% 
+  select(year, tmID, Pts, G) %>% 
   filter(year > 1987) %>% 
   group_by(year) %>% 
-  mutate(meanPts = mean(Pts))
+  mutate(meanPtsPct = mean(Pts/(2*G)), PtsPct = Pts/(2*G))
 
 data_f <- left_join(scChamps, regSeason)
 
-#MAYBE CHANGE THIS TO WINNING %????
+#MAYBE CHANGE THIS TO PTS %????
 ggplot(data_f) +
-  geom_line(aes(year, Pts), col = "blue") +
-  geom_line(aes(year, meanPts), col = "red")
+  geom_line(aes(year, PtsPct), col = "blue") +
+  geom_line(aes(year, meanPtsPct), col = "red")
 
 ```
 
