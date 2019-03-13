@@ -39,6 +39,8 @@ HEllo 8yuewugfh oeuafh
 
 #Zach
 ```{r}
+#Coach Awards Data set
+
 awardCoaches2 <- awardCoaches %>% 
   filter(award == "Jack Adams") %>% 
   select(-note)
@@ -47,6 +49,12 @@ masters_names <- masters %>%
   select(coachID, firstName, lastName)
 
 awardCoaches_f <- left_join(awardCoaches2, masters_names)
+
+#Postseason Data set
+
+teamsPost2 <- teamsPost %>% 
+  group_by(year) %>% 
+  filter(max(W))
 ```
 
 
