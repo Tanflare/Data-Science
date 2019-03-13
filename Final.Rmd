@@ -117,6 +117,36 @@ teams_F %>% filter(tmID=="NYR") %>% ggplot(aes(year, W/G)) + geom_point(aes(colo
 teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "CHI Record") + scale_color_discrete(name="Won SC?")
 ```
 
+## ZACH
+
+Stanley Cup Hangover??
+
+```{r}
+#stantley cup champion, year + 1 to be able to join with another dataset
+#to see how they do the next year
+
+#filtering for SC champs in modern playoff structure (needs 16 wins to get Stanley cup)
+scChamps <- teamsPost %>% 
+  filter(year < 2011, W == 16) %>% 
+  select(year, tmID) %>% 
+  mutate(year = year + 1)
+
+#filtering reg season data
+regSeason <- teams %>%
+  select(year, tmID, Pts) %>% 
+  filter(year > 1987) %>% 
+  group_by(year) %>% 
+  mutate(meanPts = mean(Pts))
+
+data_f <- left_join(scChamps, regSeason)
+
+#MAYBE CHANGE THIS TO WINNING %????
+ggplot(data_f) +
+  geom_line(aes(year, Pts), col = "blue") +
+  geom_line(aes(year, meanPts), col = "red")
+
+```
+
 #Question 3  
 What coach coached the same team for the longest number of years?  
 Consecutively?  
