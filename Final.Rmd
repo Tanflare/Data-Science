@@ -114,23 +114,16 @@ test2 <- test1 %>%
   filter(won_award == TRUE) %>% 
   arrange(year)
 test2
- 
-# test3 = test1 %>% 
-#   filter(coachID == test2$coachID) %>% 
-#   mutate()
+
 
 printPlot <- function(tibble) {
-  print(ggplot(tibble, aes(year, ((2*W+T)/(2*G)))) + geom_line())
+  print(ggplot(tibble, aes(year, ((2*W+T)/(2*G)))) + geom_line() + labs(y ="Points Percentage", title = paste(tibble$tmID[1], "after their coach won Jack Adams award in", tibble$year[1], sep = " ")))
+
   }
 
 for(x in 1:nrow(test2)){
   teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% printPlot(.)
 }
-# %>% mutate(PtsPtt = (2(W)+T)/G)
-
-
-# x <- 1
-# teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% ggplot(aes(year, ((2*W+T)/G))) + geom_point()
 ```
 
  
