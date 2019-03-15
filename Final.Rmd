@@ -120,7 +120,7 @@ test2
 #   mutate()
 
 printPlot <- function(tibble) {
-  print(ggplot(tibble, aes(year, ((2*W+T)/G))) + geom_line())
+  print(ggplot(tibble, aes(year, ((2*W+T)/(2*G)))) + geom_line())
   }
 
 for(x in 1:nrow(test2)){
@@ -192,8 +192,9 @@ Consecutively?
 ```
 
 #Question 4  
-What coach won the most stanley cups?
+What coach won the most Stanley Cups?
 **answer**  
+Scotty Bowman has won the most Stanley Cups, followed by Toe Blake and Hap Day.  
 ```{r}
 question4 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
@@ -218,8 +219,6 @@ What coach had the best regular season?
 #Question 6  
 Is there any correlation between regular season and post-season performance?  
 **answer**  
-
-**answer**  
 It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.178 which implies that the relationship is VERY weak.  
 ```{r}
 question6a = coaches %>% 
@@ -235,6 +234,7 @@ question6b = coaches %>%
   filter(reg_win_percent > .5, is.na(reg_win_percent) == FALSE, is.na(post_win_percent) == FALSE)
 cor(question6b$post_win_percent,question6b$reg_win_percent)
 ```
+
 #Question 7  
 Coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?  
 **answer**  
