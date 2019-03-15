@@ -105,14 +105,14 @@ test1 = coaches %>%
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   mutate(won_award = !is.na(award)) %>% 
   select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
-  filter(is.na(coachID)==FALSE, year >= 1973) %>%                   #doesn't look like jack adams started until 1973
+  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   #doesn't look like jack adams started until 1973
   arrange(year)
 test1
 
 #all the coaches that have won an award
 test2 = test1 %>% 
   filter(won_award == TRUE) %>% 
-  arrange(coachID)
+  arrange(year)
 test2
  
 # test3 = test1 %>% 
@@ -144,7 +144,7 @@ regSeason <- teams %>%
   mutate(meanPtsPct = mean(Pts/(2*G)), PtsPct = Pts/(2*G))
 
 data_f <- left_join(scChamps, regSeason, by = c("year","tmID"))
-data_f
+
 #MAYBE CHANGE THIS TO PTS %????
 ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "blue") +
