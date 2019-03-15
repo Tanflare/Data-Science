@@ -145,6 +145,23 @@ ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "blue") +
   geom_line(aes(year, meanPtsPct), col = "red")
 
+
+#SC champs
+SC <- teams %>% 
+  filter(playoff == "SC") %>% 
+  select(year, tmID) %>% 
+  mutate(year = year + 1)
+
+nextSeasonData <- teams %>%
+  select(year, tmID, Pts, G) %>% 
+  group_by(year) %>% 
+  mutate(meanPtsPct = mean(Pts/(2*G)), PtsPct = Pts/(2*G))
+
+data_f2 <- left_join(SC, nextSeasonData)
+
+ggplot(data_f2) +
+  geom_line(aes(year, PtsPct), col = "blue") +
+  geom_line(aes(year, meanPtsPct), col = "red")
 ```
 
 #Question 3  
