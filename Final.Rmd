@@ -97,30 +97,35 @@ coaches_f = coaches4 %>%
 #Question 1  
 How does the team performance change after the coach wins an award?  
 **answer**  
+```{r}
+#every coach for every year
+test1 = coaches %>% 
+  full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
+  filter(lgID == "NHL") %>% 
+  full_join(teams, by = c("year","tmID","lgID")) %>% 
+  mutate(won_award = !is.na(award)) %>% 
+  select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
+  filter(is.na(coachID)==FALSE, year >= 1930) %>%                   #doesn't look like awards started until 1930
+  arrange(year)
+test1
+
+#all the coaches that have won an award
+test2 = test1 %>% 
+  filter(won_award == TRUE) %>% 
+  arrange(coachID)
+test2
+ 
+# test3 = test1 %>% 
+#   filter(coachID == test2$coachID) %>% 
+#   mutate()
+
+```
+
  
 #Question 2  
 How does the team performance change after winning a Stanley Cup?  
 **answer**  
-```{r}
-#REGULAR SEASON
-
-teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record") + scale_color_discrete(name="Won SC?")
-
-teams_F %>% filter(tmID=="BOS") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "BOS Record") + scale_color_discrete(name="Won SC?")
-
-teams_F %>% filter(tmID=="TOR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "TOR Record") + scale_color_discrete(name="Won SC?")
-
-teams_F %>% filter(tmID=="DET") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "DET Record") + scale_color_discrete(name="Won SC?")
-
-teams_F %>% filter(tmID=="NYR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "NYR Record")+ scale_color_discrete(name="Won SC?")
-
-teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "CHI Record") + scale_color_discrete(name="Won SC?")
-```
-
-## ZACH
-
-Stanley Cup Hangover??
-
+In the graph below, the blue line represents the average number of points per game that the team that won the Stanley Cup the previous year earns. The red line represents the average number of points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
 ```{r}
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
@@ -138,13 +143,19 @@ regSeason <- teams %>%
   group_by(year) %>% 
   mutate(meanPtsPct = mean(Pts/(2*G)), PtsPct = Pts/(2*G))
 
-data_f <- left_join(scChamps, regSeason)
-
+data_f <- left_join(scChamps, regSeason, by = c("year","tmID"))
+data_f
 #MAYBE CHANGE THIS TO PTS %????
 ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "blue") +
-  geom_line(aes(year, meanPtsPct), col = "red")
+  geom_point(aes(year, PtsPct), col = "blue") +
+  geom_line(aes(year, meanPtsPct), col = "red") +
+  geom_point(aes(year,meanPtsPct), col = "red")
+```
 
+```{r}
+
+<<<<<<< HEAD
 
 #SC champs
 SC <- teams %>% 
@@ -162,6 +173,21 @@ data_f2 <- left_join(SC, nextSeasonData)
 ggplot(data_f2) +
   geom_line(aes(year, PtsPct), col = "blue") +
   geom_line(aes(year, meanPtsPct), col = "red")
+=======
+# #REGULAR SEASON
+# 
+# teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record") + scale_color_discrete(name="Won SC?")
+# 
+# teams_F %>% filter(tmID=="BOS") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "BOS Record") + scale_color_discrete(name="Won SC?")
+# 
+# teams_F %>% filter(tmID=="TOR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "TOR Record") + scale_color_discrete(name="Won SC?")
+# 
+# teams_F %>% filter(tmID=="DET") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "DET Record") + scale_color_discrete(name="Won SC?")
+# 
+# teams_F %>% filter(tmID=="NYR") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "NYR Record")+ scale_color_discrete(name="Won SC?")
+# 
+# teams_F %>% filter(tmID=="CHI") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "CHI Record") + scale_color_discrete(name="Won SC?")
+>>>>>>> 657457b8d3212bca67813056003f98e0f759242b
 ```
 
 #Question 3  
