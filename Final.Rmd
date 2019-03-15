@@ -16,7 +16,7 @@ library(rvest)
 
 ## Data 
 
-```{r}
+```{r, message=FALSE}
 masters <- read_csv("Data/Master.csv")
 coaches <- read_csv("Data/Coaches.csv")
 awardCoaches <- read_csv("Data/AwardsCoaches.csv")
@@ -110,7 +110,7 @@ test1 = coaches %>%
 test1
 
 #all the coaches that have won an award
-test2 = test1 %>% 
+test2 <- test1 %>% 
   filter(won_award == TRUE) %>% 
   arrange(year)
 test2
@@ -119,6 +119,14 @@ test2
 #   filter(coachID == test2$coachID) %>% 
 #   mutate()
 
+for(x in 1:nrow(test2)){
+  teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% ggplot(aes(year, ((2*W+T)/G))) + geom_point()
+}
+# %>% mutate(PtsPtt = (2(W)+T)/G)
+
+
+# x <- 1
+# teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% ggplot(aes(year, ((2*W+T)/G))) + geom_point()
 ```
 
  
