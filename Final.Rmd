@@ -37,10 +37,10 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 teams_F <- teams %>% filter(lgID == "NHL")
 teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
 
-# | tmID=="LAK" | tmID=="BOS"
-teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
-
-teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
+# # | tmID=="LAK" | tmID=="BOS"
+# teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
+# 
+# teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
 
 ```
 
@@ -208,6 +208,11 @@ head(question4_f,3)
 #Question 5  
 What coach had the best regular season? 
 **answer**  
+```{r}
+question5 = coaches %>% 
+  full_join(teams, by = c("year","tmID","lgID"))
+question5
+```
 
 #Question 6  
 Is there any correlation between regular season and post-season performance?  
