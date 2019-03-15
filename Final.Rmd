@@ -191,7 +191,7 @@ Consecutively?
 What coach won the most stanley cups?
 **answer**  
 ```{r}
-pete = coaches %>% 
+question4 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
   full_join(teams, by = c("year","tmID","lgID")) %>% 
@@ -201,7 +201,10 @@ pete = coaches %>%
   tally() %>% 
   filter(is.na(coachID)==FALSE) %>% 
   arrange(desc(n))
-pete
+question4_f = pete %>% 
+  left_join(masters, by = c("coachID")) %>% 
+  select(coachID,n,firstName,lastName)
+head(question4_f,3)
 ```
 
 #Question 5  
