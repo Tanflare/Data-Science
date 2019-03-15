@@ -187,12 +187,25 @@ teams %>%
 What coach coached the same team for the longest number of years?  
 Consecutively?  
 **answer**  
+```{r}
+
+```
 
 #Question 4  
 What coach won the most stanley cups?
 **answer**  
 ```{r}
-
+pete = coaches %>% 
+  full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
+  filter(lgID == "NHL") %>% 
+  full_join(teams, by = c("year","tmID","lgID")) %>% 
+  filter(playoff == "SC" ) %>% 
+  select(coachID,year,playoff,tmID) %>% 
+  group_by(coachID) %>% 
+  tally() %>% 
+  filter(is.na(coachID)==FALSE) %>% 
+  arrange(desc(n))
+pete
 ```
 
 #Question 5  
