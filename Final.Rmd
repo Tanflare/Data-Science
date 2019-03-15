@@ -161,6 +161,24 @@ ggplot(data_f) +
   geom_point(aes(year,meanPtsPct), col = "red")
 ```
 
+```{r}
+champs96_00 <- teams %>% 
+  filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
+  select(year, tmID)
+
+teams %>% 
+  filter(year >= 1990) %>% 
+  right_join(champs96_00, by = "tmID") %>% 
+  select(year.x, tmID, G, Pts, year.y) %>% 
+  rename(year = year.x, SCyear = year.y) %>% 
+  mutate(PtsPct = Pts / (2*G)) %>% 
+  ggplot(aes(year, PtsPct, col = tmID)) +
+  geom_line() +
+  geom_point(aes(SCyear, PtsPct), col = "black") +
+  facet_wrap(~tmID)
+```
+
+
 #Question 3  
 What coach coached the same team for the longest number of years?  
 Consecutively?  
