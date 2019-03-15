@@ -120,7 +120,7 @@ test2
 #   mutate()
 
 printPlot <- function(tibble) {
-  print(ggplot(tibble, aes(year, ((2*W+T)/G))) + geom_line())
+  print(ggplot(tibble, aes(year, ((2*W+T)/2*G))) + geom_line() + labs(y ="Points Percentage", title = paste(tibble$tmID[1], "after their coach won Jack Adams award in", tibble$year[1], sep = " ")))
   }
 
 for(x in 1:nrow(test2)){
