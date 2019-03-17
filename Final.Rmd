@@ -179,8 +179,17 @@ teams %>%
 What coach coached the same team for the longest number of years?  
 **answer**  
 ```{r}
+teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
+
 coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
-coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(name = paste(firstName, lastName, sep=" ")) %>% head(10) %>% ggplot(aes( reorder(name, -n),n)) + geom_col(aes(fill=tmID)) +theme(axis.text.x = element_text(angle = 45, hjust = 1)) + labs(title = "Longest number of years a coach has been with a team", x="Number of Years", y="Coach")
+
+topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
+
+topCoaches %>% inner_join(., teamNames, by="tmID") %>% 
+  ggplot(aes( reorder(nameC, -n),n)) + geom_col(aes(fill=name)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Longest number of years a coach has been with a team", y="Number of Years", x="Coach") +
+  scale_fill_discrete(name="Team")
 ```
 
 #Question 4  
