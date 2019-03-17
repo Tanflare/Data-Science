@@ -125,12 +125,20 @@ for(x in 1:nrow(test2)){
 ```
 
  
+<<<<<<< HEAD
+#Question 2  
+How does the team performance change after winning a Stanley Cup?  
+**answer**  
+In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
+```{r, warning=FALSE, message=FALSE}
+=======
 #### Question 2   
 How does the team performance change after winning a Stanley Cup?   
 
 **answer**   
 In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.   
 ```{r,warning=FALSE}
+>>>>>>> 2541003cc4df03db52aa8f32a6f5998a44f54128
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
 
@@ -149,18 +157,44 @@ regSeason <- teams %>%
 
 data_f <- left_join(scChamps, regSeason, by = c("year","tmID"))
 
+#points needed for playoffs
+playoffpts <- teams %>%
+select(year, tmID, Pts, G, rank) %>%
+filter(year > 1987, rank == 4, year != 2004 , year != 2005) %>%
+group_by(year) %>%
+summarise(PtsForPlayoffs = mean(Pts/ (2*G)))
+
+data_f <- left_join(data_f, playoffpts)
+
 #MAYBE CHANGE THIS TO PTS %????
 ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "blue") +
   geom_point(aes(year, PtsPct), col = "blue") +
-  geom_line(aes(year, meanPtsPct), col = "red") +
-  geom_point(aes(year,meanPtsPct), col = "red")
+  geom_line(aes(year, PtsForPlayoffs), col = "red") +
+  geom_point(aes(year, PtsForPlayoffs), col = "red")
 ```
 
+<<<<<<< HEAD
+```{r}
+origSix <- teams %>% 
+  filter(tmID == "BOS" | tmID == "MTL" | tmID == "DET" |
+           tmID == "CHI" | tmID == "TOR" | tmID == "CHI") %>% 
+  select(year, tmID, G, Pts, playoff, name) %>% 
+  mutate(PtsPct = Pts / (2*G))
+  
+SC <- origSix %>% 
+  filter(playoff == "SC")
+  
+ggplot(origSix, aes(year, PtsPct, col = tmID)) +
+  geom_line() +
+  geom_point(data = SC, aes(year, PtsPct), col = "black") +
+  facet_wrap(~tmID)
+=======
 ```{r,warning = FALSE}
 champs96_00 <- teams %>% 
   filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
   select(year, tmID)
+>>>>>>> 2541003cc4df03db52aa8f32a6f5998a44f54128
 
 teams %>% 
   filter(year >= 1990) %>% 
@@ -181,8 +215,17 @@ What coach coached the same team for the longest number of years?
 **answer**  
 Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
 ```{r}
+teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
+
 coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
-coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(name = paste(firstName, lastName, sep=" ")) %>% head(10) %>% ggplot(aes( reorder(name, -n),n)) + geom_col(aes(fill=tmID)) +theme(axis.text.x = element_text(angle = 45, hjust = 1)) + labs(title = "Longest number of years a coach has been with a team", x="Number of Years", y="Coach")
+
+topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
+
+topCoaches %>% inner_join(., teamNames, by="tmID") %>% 
+  ggplot(aes( reorder(nameC, -n),n)) + geom_col(aes(fill=name)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Longest number of years a coach has been with a team", y="Number of Years", x="Coach") +
+  scale_fill_discrete(name="Team")
 ```
 
 #### Question 4  
