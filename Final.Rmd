@@ -130,7 +130,7 @@ for(x in 1:nrow(test2)){
 How does the team performance change after winning a Stanley Cup?  
 **answer**  
 In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
 
@@ -149,18 +149,37 @@ regSeason <- teams %>%
 
 data_f <- left_join(scChamps, regSeason, by = c("year","tmID"))
 
+#points needed for playoffs
+playoffpts <- teams %>%
+select(year, tmID, Pts, G, rank) %>%
+filter(year > 1987, rank == 4, year != 2004 , year != 2005) %>%
+group_by(year) %>%
+summarise(PtsForPlayoffs = mean(Pts/ (2*G)))
+
+data_f <- left_join(data_f, playoffpts)
+
 #MAYBE CHANGE THIS TO PTS %????
 ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "blue") +
   geom_point(aes(year, PtsPct), col = "blue") +
-  geom_line(aes(year, meanPtsPct), col = "red") +
-  geom_point(aes(year,meanPtsPct), col = "red")
+  geom_line(aes(year, PtsForPlayoffs), col = "red") +
+  geom_point(aes(year, PtsForPlayoffs), col = "red")
 ```
 
 ```{r}
-champs96_00 <- teams %>% 
-  filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
-  select(year, tmID)
+origSix <- teams %>% 
+  filter(tmID == "BOS" | tmID == "MTL" | tmID == "DET" |
+           tmID == "CHI" | tmID == "TOR" | tmID == "CHI") %>% 
+  select(year, tmID, G, Pts, playoff, name) %>% 
+  mutate(PtsPct = Pts / (2*G))
+  
+SC <- origSix %>% 
+  filter(playoff == "SC")
+  
+ggplot(origSix, aes(year, PtsPct, col = tmID)) +
+  geom_line() +
+  geom_point(data = SC, aes(year, PtsPct), col = "black") +
+  facet_wrap(~tmID)
 
 teams %>% 
   filter(year >= 1990) %>% 
