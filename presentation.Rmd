@@ -1,5 +1,6 @@
 ---
-title: "presentation"
+title: "NHL Coaching Data Analysis"
+author: Nushi Samson, Pete Schultz, Zach Morales
 output: ioslides_presentation
 ---
 
