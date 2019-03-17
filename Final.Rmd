@@ -16,7 +16,7 @@ library(rvest)
 
 ## Data 
 
-```{r, message=FALSE}
+```{r,message=FALSE, warning=FALSE}
 masters <- read_csv("Data/Master.csv")
 coaches <- read_csv("Data/Coaches.csv")
 awardCoaches <- read_csv("Data/AwardsCoaches.csv")
@@ -31,8 +31,8 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
                  
 ```
 
-#Tanush
-```{r}
+
+```{r,warning=FALSE}
 #selecting NHL
 teams_F <- teams %>% filter(lgID == "NHL")
 teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
@@ -44,8 +44,8 @@ teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
 
 ```
 
-#Zach
-```{r}
+
+```{r,warning=FALSE,message=FALSE}
 #Coach Awards Data set
 
 awardCoaches2 <- awardCoaches %>% 
@@ -61,10 +61,7 @@ awardCoaches_f <- left_join(awardCoaches2, masters_names)
 
 ```
 
-
-#Pete
-
-```{r}
+```{r,warning=FALSE}
 coaches = coaches %>% filter(lgID == "NHL")
 coaches1 = coaches %>% 
   filter(lgID == "NHL") %>% 
@@ -91,10 +88,12 @@ coaches_f = coaches4 %>%
 
 ```
 
-#Question 1  
-How does the team performance change after the coach wins the Jack Adams award?  
-**answer**  
-```{r}
+#### Question 1  
+How does the team performance change after the coach wins the Jack Adams award?   
+
+**answer**   
+We are looking at the teams that had a coach win the Jack Adams during the 5 year period from 1995 to 2000, and how well that team did for the following five years. It appears that no general trend is consistently present for these teams so we are unable to conclude anything about tea performance after a coach wins the Jack Adams.   
+```{r, warning=FALSE}
 #every coach for every year
 test1 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
@@ -126,11 +125,12 @@ for(x in 1:nrow(test2)){
 ```
 
  
-#Question 2  
-How does the team performance change after winning a Stanley Cup?  
-**answer**  
-In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
-```{r}
+#### Question 2   
+How does the team performance change after winning a Stanley Cup?   
+
+**answer**   
+In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.   
+```{r,warning=FALSE}
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
 
@@ -157,7 +157,7 @@ ggplot(data_f) +
   geom_point(aes(year,meanPtsPct), col = "red")
 ```
 
-```{r}
+```{r,warning = FALSE}
 champs96_00 <- teams %>% 
   filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
   select(year, tmID)
@@ -175,17 +175,20 @@ teams %>%
 ```
 
 
-#Question 3  
-What coach coached the same team for the longest number of years?  
+#### Question 3  
+What coach coached the same team for the longest number of years?   
+
 **answer**  
+Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
 ```{r}
 coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
 coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(name = paste(firstName, lastName, sep=" ")) %>% head(10) %>% ggplot(aes( reorder(name, -n),n)) + geom_col(aes(fill=tmID)) +theme(axis.text.x = element_text(angle = 45, hjust = 1)) + labs(title = "Longest number of years a coach has been with a team", x="Number of Years", y="Coach")
 ```
 
-#Question 4  
-What coach won the most Stanley Cups?
-**answer**  
+#### Question 4  
+What coach won the most Stanley Cups?  
+
+**answer**   
 Scotty Bowman has won the most Stanley Cups, followed by Toe Blake and Hap Day.  
 ```{r}
 question4 = coaches %>% 
@@ -198,15 +201,16 @@ question4 = coaches %>%
   tally() %>% 
   filter(is.na(coachID)==FALSE) %>% 
   arrange(desc(n))
-question4_f = pete %>% 
+question4_f = question4 %>% 
   left_join(masters, by = c("coachID")) %>% 
   select(coachID,n,firstName,lastName) %>% 
   unite(Name,firstName,lastName, sep = " " )
 head(question4_f,3)
 ```
 
-#Question 5  
-What coach had the best full regular season (in terms of number of points per season)?
+#### Question 5   
+What coach had the best full regular season (in terms of number of points per season)?   
+
 **answer**  
 The total number of possible points for a full regular season is 164 points (2 for a win, 1 for overtime game and 0 for a loss). Therefore, Scotty Bowman had the best full regular season with 131 points in 1995 with the Detroit Red Wings. He is followed by Mike Babcock in 2005 with the Red wings, and by Bruce Boudreau in 2009 with the Washington Capitals.  
 ```{r}
@@ -222,8 +226,9 @@ question5 = coaches %>%
 head(question5,3)
 ```
 
-#Question 6  
-Is there any correlation between regular season and post-season performance?  
+#### Question 6  
+Is there any correlation between regular season and post-season performance?   
+
 **answer**  
 It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.289 which implies that the relationship is VERY weak.  
 ```{r}
@@ -241,8 +246,9 @@ question6b = coaches %>%
 cor(question6b$post_point_percent,question6b$reg_point_percent)
 ```
 
-#Question 7  
-Coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?  
+#### Question 7  
+Coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?    
+
 **answer**  
 It appears that there are much more defensively oriented teams than offensively oriented team. This is likely to be due to fact that defensively oriented teams throughout history have had higher mean and median win percentages than offensively oriented team.  
 ```{r}
