@@ -125,20 +125,12 @@ for(x in 1:nrow(test2)){
 ```
 
  
-<<<<<<< HEAD
+
 #Question 2  
 How does the team performance change after winning a Stanley Cup?  
 **answer**  
 In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
 ```{r, warning=FALSE, message=FALSE}
-=======
-#### Question 2   
-How does the team performance change after winning a Stanley Cup?   
-
-**answer**   
-In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.   
-```{r,warning=FALSE}
->>>>>>> 2541003cc4df03db52aa8f32a6f5998a44f54128
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
 
@@ -174,7 +166,7 @@ ggplot(data_f) +
   geom_point(aes(year, PtsForPlayoffs), col = "red")
 ```
 
-<<<<<<< HEAD
+
 ```{r}
 origSix <- teams %>% 
   filter(tmID == "BOS" | tmID == "MTL" | tmID == "DET" |
@@ -189,12 +181,11 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_line() +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
   facet_wrap(~tmID)
-=======
-```{r,warning = FALSE}
+
 champs96_00 <- teams %>% 
   filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
   select(year, tmID)
->>>>>>> 2541003cc4df03db52aa8f32a6f5998a44f54128
+
 
 teams %>% 
   filter(year >= 1990) %>% 
@@ -300,14 +291,14 @@ question7 <- teams_F %>%
   mutate(orientation = ifelse(defense_tendancy > 1.2 | offense_tendancy < .228, "Defense","Offense")) %>% 
   filter(is.na(orientation)==FALSE)
 
-question7i = question7 %>% filter(orientation == "Defense") 
-mean(question7i$winpercentage)
-median(question7i$winpercentage)
-sd(question7i$winpercentage)
-question7ii = question7 %>% filter(orientation == "Offense") 
-mean(question7ii$winpercentage)
-median(question7ii$winpercentage)
-sd(question7ii$winpercentage)
+# question7i = question7 %>% filter(orientation == "Defense") 
+# mean(question7i$winpercentage)
+# median(question7i$winpercentage)
+# sd(question7i$winpercentage)
+# question7ii = question7 %>% filter(orientation == "Offense") 
+# mean(question7ii$winpercentage)
+# median(question7ii$winpercentage)
+# sd(question7ii$winpercentage)
 
 
 ggplot(question7, aes(x = winpercentage))+
