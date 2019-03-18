@@ -301,5 +301,5 @@ ggplot(question7, aes(x = winpercentage))+
 ```
 
 ## Conclusion
-Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like the other major league sports, team success varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), they're success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup has almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
+Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like the other major league sports, team success in the NHL varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), they're success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup has almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
 
