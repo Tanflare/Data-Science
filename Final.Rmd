@@ -274,7 +274,7 @@ teams %>%
 
 
 #### Question 7  
-Are there any coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?   
+Are there any coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?    
 
 **answer**  
 It appears that there are much more defensively oriented teams than offensively oriented team. This is likely to be due to fact that defensively oriented teams throughout history have had higher mean and median win percentages than offensively oriented team.   
