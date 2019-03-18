@@ -182,6 +182,7 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
   facet_wrap(~tmID)
 
+
 champs96_00 <- teams %>% 
   filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
   select(year, tmID)
@@ -197,8 +198,8 @@ teams %>%
   geom_line() +
   geom_point(aes(SCyear, PtsPct), col = "black") +
   facet_wrap(~tmID)
-```
 
+```
 
 #### Question 3  
 What coach coached the same team for the longest number of years?   
@@ -258,6 +259,12 @@ question5 = coaches %>%
   unite(Name,firstName,lastName, sep = " " ) %>% 
   arrange(desc(num_of_points))
 head(question5,3)
+head(question5,6) %>% 
+ggplot( aes(reorder(Name,num_of_points),num_of_points)) +
+  geom_col(aes(fill=tmID)) +
+  labs(title = "Best Full Regular Season by a Coach", y="Number of Points", x="Coach") +
+  scale_fill_discrete(name="Team")+
+  coord_flip()
 ```
 
 #### Question 6  
