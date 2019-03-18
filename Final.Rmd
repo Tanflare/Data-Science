@@ -301,7 +301,15 @@ ggplot(question7, aes(x = winpercentage))+
 ```
 
 ## Conclusion
-Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like the other major league sports, team success in the NHL varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), they're success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup has almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
+Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like in other major league sports, team success in the NHL varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), their success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup have almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
+
+Q1.)
+Q2.)
+Q3.)
+Q4.)
+Q5.)
+Q6.)
+Q7.)
 
 In respect to our methods of tidying and analysis:
 We ended up splitting our many datasets into even smaller dataframes with the desired variables. This left us with a working environment a little too full of dataframes. In the future it might be wiser to overwrite and only keep our desired dataframes rather than keeping both. 
