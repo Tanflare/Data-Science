@@ -159,24 +159,6 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_line() +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
   facet_wrap(~tmID)
-
-
-champs96_00 <- teams %>% 
-  filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
-  select(year, tmID)
-
-
-teams %>% 
-  filter(year >= 1990) %>% 
-  right_join(champs96_00, by = "tmID") %>% 
-  select(year.x, tmID, G, Pts, year.y) %>% 
-  rename(year = year.x, SCyear = year.y) %>% 
-  mutate(PtsPct = Pts / (2*G)) %>% 
-  ggplot(aes(year, PtsPct, col = tmID)) +
-  geom_line() +
-  geom_point(aes(SCyear, PtsPct), col = "black") +
-  facet_wrap(~tmID)
-
 ```
 
 #### Question 3  
@@ -284,17 +266,17 @@ cor(question6b$post_point_percent,question6b$reg_point_percent)
 ```
 
 
-```{r}
-abbrev <- read_csv("Data/abbrev.csv")
+```{r, fig.width=15}
+abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
 abbrevP <- abbrev %>% 
-  filter(Type == "Playoff")
-abbrevP
+  filter(Type == "Playoffs")
 
 teams %>% 
   filter(year > 1987, rank == 1) %>% 
-  left_join(abbrevP, by = c("playoff" = "Code"))
-  ggplot(aes(Fullname)) +
-  geom_bar()
+  left_join(abbrevP, by = c("playoff" = "Code")) %>% 
+  ggplot(aes(fct_infreq(Fullname))) +
+  geom_bar() +
+  labs(x = "Playoff Round", title = "How far the number 1 team in each division went in the playoffs")
 ```
 
 
