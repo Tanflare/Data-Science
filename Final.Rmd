@@ -303,13 +303,29 @@ ggplot(question7, aes(x = winpercentage))+
 ## Conclusion
 Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like in other major league sports, team success in the NHL varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), their success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup have almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
 
-Q1.)
-Q2.)
-Q3.)
-Q4.)
-Q5.)
-Q6.)
-Q7.)
+##Q1.)
+
+
+##Q2.)
+
+
+##Q3.)
+Since coaches are free to move between teams, we thought a good question to ask was how loyal are coaches to their respective teams. In other words we wanted to find the coaches with the highest consecutive years with a team. Our initial approach to this was to subtract the max year value from the minimum year value and ensure that it was equal to the number of rows in the filtered tibble. This would ensure that those years were actually consecutive and the coach was with a team throughout. However, trying to get r to do this without manually creating multiple tibbles and comparing the difference to nrow() was quite tedious. In the end we opted to just see how long a coach has been with a particular team, regardless of whether they moved and returned.
+
+When fact checking the stats we got we see that Al Arbour coached the New York Islanders from 1973–1986, left for two years and then returned to coach them from 1988-1994. Which indeed adds up to our total of 20 years. Art Ross coached the Boston Bruins from 1924-1945 taking two 2 year gapes in between. 
+
+Our next idea was to take the average performance of the teams under these coaches and compare it with the coaches after for the same teams. This however led to issues as the data was not complete and the coaches were not in the same time frame, leading to the recurring issue of the league being changed between seasons.   
+
+##Q4.)
+
+
+##Q5.)
+
+
+##Q6.)
+
+
+##Q7.)
 
 In respect to our methods of tidying and analysis:
 We ended up splitting our many datasets into even smaller dataframes with the desired variables. This left us with a working environment a little too full of dataframes. In the future it might be wiser to overwrite and only keep our desired dataframes rather than keeping both. 
