@@ -28,7 +28,7 @@ Using these datasets, we were able to answer the following research questions fo
     * Is there any correlation between regular season and post-season performance?      
     * Are there any coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)? (PKC = Penalty Kill Chances, GA = goals against, PPG = power play goals, GF = goals for)      
 
-It is important to highlight that the points system in hockey is as follows: a win is worth 2 points, an overtime loss is worth 1 point, and a straight loss is worth 0 points. Furhtermore, the modern NHL playoff (based off of the team with the most amount of points in their division at the end of the regular season, plus wild cards from each conference) structure started in 1988.   
+It is important to highlight that the points system in hockey is as follows: a win is worth 2 points, an overtime loss is worth 1 point, and a straight loss is worth 0 points. Furhtermore, the modern NHL playoff (based off of the team with the most amount of points in their division at the end of the regular season, plus wild cards from each conference) structure started in 1988. Lastly, in 2004, the NHL experienced a lockout and had no games as a result.     
 
 ## Data 
 
@@ -258,7 +258,6 @@ Is there any correlation between regular season and post-season performance?
 **answer**  
 ```{r, fig.height=7}
 #Used to get the full names of the abbreviations in teams data set
-
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
@@ -302,5 +301,5 @@ ggplot(question7, aes(x = winpercentage))+
 ```
 
 ## Conclusion
-
+Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like the other major league sports, team success varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), they're success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup has almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
 
