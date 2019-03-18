@@ -16,7 +16,7 @@ library(rvest)
 ```
 
 ## Introduction
-  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data, originally sourced from The Hockey Database from Open Source Sports, is a collection of historical statistics from men's professional hockey teams in North America since 1917 until 2011. Althought there were 20 datasets within the source, of which 5 were utilized (masters, coaches, awardCoaches, teams and teamsPost). 
+  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data, originally sourced from The Hockey Database from Open Source Sports, is a collection of historical statistics from men's professional hockey teams in North America since 1917 until 2011. Although there were 20 datasets within the source, only 6 were utilized (masters, coaches, awardCoaches, teams and teamsPost, abbrev). 
 
 ## Data 
 
@@ -26,7 +26,7 @@ coaches <- read_csv("Data/Coaches.csv")
 awardCoaches <- read_csv("Data/AwardsCoaches.csv")
 teams <- read_csv("Data/Teams.csv")
 teamsPost <- read_csv("Data/TeamsPost.csv")
-
+abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
                  
 ```
 
@@ -244,6 +244,7 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 Is there any correlation between regular season and post-season performance?   
 
 **answer**  
+<<<<<<< HEAD
 It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.289 which implies that the relationship is VERY weak.  
 ```{r}
 question6a = coaches %>% 
@@ -263,9 +264,14 @@ cor(question6b$post_point_percent,question6b$reg_point_percent)
 
 ```{r, fig.height=7}
 abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
+=======
+```{r, fig.width=15}
+#Used to get the full names of the abbreviations in teams data set
+>>>>>>> a96fb631393ea1c9e9676cecb95cb8530064d0ca
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
+#Taking the #1 ranked team in each conference and seeing how far they went in the playoffs
 teams %>% 
   filter(year > 1987, rank == 1) %>% 
   left_join(abbrevP, by = c("playoff" = "Code")) %>% 
