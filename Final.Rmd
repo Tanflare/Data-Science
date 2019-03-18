@@ -256,7 +256,7 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 Is there any correlation between regular season and post-season performance?   
 
 **answer**   
-
+From the data, we can see that the best team in the regular season isn't always the best team in the postseason. The majority of the time the best team doesn't even make it to the Stanley Cup finals.
 ```{r, fig.height=7}
 #Used to get the full names of the abbreviations in teams data set
 abbrevP <- abbrev %>% 
@@ -310,8 +310,8 @@ Q2.)
 Q3.)
 Q4.) Scotty Bowman has won the most Stanley Cups in NHL history with a total of 9 cups. Bowman is followed by Toe Blake who has won 8 cups and Hap Day who has won 5 cups.   
 Q5.) In 1995, Scotty Bowman, who at the time was coaching the Detroit Red Wings, had the best full regular season to date in NHL history. His team earned 131 points out of 164 possible (79.9%). The second best full regular season was in 2005, also by the Detroit Red Wings under coach Mike Babcock (124 points). Bruce Boudreau has the third best full regular season with 121 points with the 2009 Washington Capitals.    
-Q6.)
-Q7.) The qualification for being labeled as a defensively orriented team was chosen to have a penalty kill chance to goals against ratio above 1.2 or a power play goal to goals for ratio below .228. These values were chosen by sorting the created dataset after creating these ratios and analyzing the midway points for both ratios.
+Q6.) For this question we needed a way to filter for the best team during the regular season. To do this we grouped by the variable year then filtered for years 1994+ and the team that had the max number of points each year. From there we joined with the abbreviations data set to ensure we label our bars correctly. The abbreviations data set contains numerous different abbreviations covering all facets of hockey, so to ensure we are only joining the relevant ones we filtered the data set for only the "playoff" abbreviations. From there we plotted how far each team went in the playoffs.
+Q7.) The qualification for being labeled as a defensively oriented team was chosen to have a penalty kill chance to goals against ratio above 1.2 or a power play goal to goals for ratio below .228. These values were chosen by sorting the created dataset after creating these ratios and analyzing the midway points for both ratios.
 
 In respect to our methods of tidying and analysis:
 We ended up splitting our many datasets into even smaller dataframes with the desired variables. This left us with a working environment a little too full of dataframes. In the future it might be wiser to overwrite and only keep our desired dataframes rather than keeping both. 
