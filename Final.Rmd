@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Packages
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rvest)
 ```
@@ -67,7 +67,7 @@ awardCoaches_f <- left_join(awardCoaches2, masters_names)
 How does the team performance change after the coach wins the Jack Adams award?   
 
 **answer**   
-We are looking at the teams that had a coach win the Jack Adams during the 5 year period from 1995 to 2000, and how well that team did for the following five years. It appears that no general trend is consistently present for these teams so we are unable to conclude anything about tea performance after a coach wins the Jack Adams.   
+We are looking at the teams that had a coach win the Jack Adams during the 5 year period from 1995 to 2000, and how well that team did for the following five years. It appears that no general trend, other than the fact that almost every team does worse the succeeding season, is present for these teams. We are unable to conclude anything further about the performance after a coach wins the Jack Adams.   
 ```{r, warning=FALSE}
 #every coach for every year
 Q1 = coaches %>% 
@@ -104,7 +104,7 @@ for(x in 1:nrow(Q1coaches)){
 #Question 2  
 How does the team performance change after winning a Stanley Cup?  
 **answer**  
-In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
+In the graph below, the black line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the minimum required number of points a team needs to make the playoffs. Therefore, since the average points per game for all but one year since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
 ```{r, warning=FALSE, message=FALSE}
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
@@ -172,7 +172,7 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
 What coach coached the same team for the longest number of years?   
 
 **answer**  
-Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
+Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years and Dick Irvins and Jack Adams (Montreal Canadiens and Detroit Red Wings respectively) with 15 years each.   
 ```{r}
 #Create lookup table for team names
 teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
@@ -219,7 +219,7 @@ question4_f = question4 %>%
 head(question4_f,3)
 
 head(question4_f,6) %>% 
-  ggplot(aes(reorder(Name,n),n, fill = Name))+
+  ggplot(aes(reorder(Name,n),factor(n), fill = Name))+
   geom_col()+
   coord_flip()+
   labs(x="Coach", y="Number of Stanley Cups Won", title="Coaches that have won the most amount of Stanley Cups")
@@ -256,8 +256,30 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 Is there any correlation between regular season and post-season performance?   
 
 **answer**  
+<<<<<<< HEAD
+It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.289 which implies that the relationship is VERY weak.  
+```{r}
+question6a = coaches %>% 
+  mutate(reg_point_percent = ((2*w+t)/(2*g)), post_point_percent = ((2*postw+postt)/(2*postg))) %>% 
+  filter(reg_point_percent > .5)
+
+ggplot(question6a, aes(reg_point_percent, post_point_percent))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE )
+
+question6b = coaches %>% 
+  mutate(reg_point_percent = ((2*w+t)/(2*g)), post_point_percent = ((2*postw+postt)/(2*postg))) %>% 
+  filter(reg_point_percent > .5, is.na(reg_point_percent) == FALSE, is.na(post_point_percent) == FALSE)
+cor(question6b$post_point_percent,question6b$reg_point_percent)
+```
+
+
+```{r, fig.height=7}
+abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
+=======
 ```{r, fig.width=15}
 #Used to get the full names of the abbreviations in teams data set
+>>>>>>> a96fb631393ea1c9e9676cecb95cb8530064d0ca
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
@@ -267,6 +289,7 @@ teams %>%
   left_join(abbrevP, by = c("playoff" = "Code")) %>% 
   ggplot(aes(fct_infreq(Fullname))) +
   geom_bar() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "Playoff Round", title = "How far the number 1 team in each division went in the playoffs")
 ```
 
