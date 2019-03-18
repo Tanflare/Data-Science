@@ -5,6 +5,8 @@ output: ioslides_presentation
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(ggplot2)
+
 ```
 
 ## R Markdown
@@ -29,5 +31,10 @@ summary(cars)
 
 ```{r pressure}
 plot(pressure)
+```
+
+## Slide with Plot2
+```{r test2}
+ggplot(test2, aes(coachID, w)) + geom_col()
 ```
 

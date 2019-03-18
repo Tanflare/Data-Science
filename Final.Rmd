@@ -181,12 +181,20 @@ What coach coached the same team for the longest number of years?
 **answer**  
 Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
 ```{r}
-teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
+#Cleaning up a team name lookup table
+teamNames <- teams_F %>% select(c("tmID", "name")) %>% 
+             unique() %>% filter(name!="Chicago Black Hawks")
 
-coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
+#Cleaning up a coach name lookup table
+coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% 
+                 filter(!is.na(coachID))
 
-topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
+#Join coach data with coach names
+topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% 
+             inner_join(., coaches_names, by="coachID") %>% 
+             mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
 
+#Joing team name with tibble of top coaches
 topCoaches %>% inner_join(., teamNames, by="tmID") %>% 
   ggplot(aes( reorder(nameC, -n),n)) + geom_col(aes(fill=name)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
