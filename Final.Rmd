@@ -1,5 +1,6 @@
 ---
-title: "Final"
+title: "An Exploration of NHL Coaching Statistics"
+name: "Pete Schultz, Tanush Samson, Zach Morales"
 output: html_document
 ---
 
@@ -61,32 +62,6 @@ awardCoaches_f <- left_join(awardCoaches2, masters_names)
 
 ```
 
-```{r,warning=FALSE}
-coaches = coaches %>% filter(lgID == "NHL")
-coaches1 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(number_of_years_in_league = (1+max(year)-min(year)))
-
-coaches2 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(reg_overall_win = sum(w), reg_overall_loss = sum(l), reg_overall_tie = sum(t), reg_num_game = sum(g))
-
-coaches3 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(post_overall_win = sum(postw), post_overall_loss = sum(postl), post_overall_tie = sum(postt), post_num_game = sum(postg))
-
-coaches4 = coaches1 %>% 
-  full_join(coaches2, by = "coachID") %>%
-  full_join(coaches3, by = "coachID")
-
-coaches_f = coaches4 %>% 
-  mutate(reg_win_percent = (reg_overall_win/reg_num_game), post_win_percent = post_overall_win/post_num_game) %>% 
-  select(coachID:reg_overall_tie, reg_win_percent, post_overall_win:post_overall_tie,post_win_percent)
-
-```
 
 #### Question 1  
 How does the team performance change after the coach wins the Jack Adams award?   
@@ -101,7 +76,7 @@ Q1 = coaches %>%
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   mutate(won_award = !is.na(award)) %>% 
   select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
-  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   #doesn't look like jack adams started until 1973
+  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   
   arrange(year)
 
 
@@ -236,6 +211,9 @@ What coach won the most Stanley Cups?
 **answer**   
 Scotty Bowman has won the most Stanley Cups, followed by Toe Blake and Hap Day.  
 ```{r}
+#merge coaches with awardcoaches and teams
+#filter for only stanley cup winners
+#tally number of appearances in this data frame of stanley cup winners
 question4 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
@@ -246,11 +224,19 @@ question4 = coaches %>%
   tally() %>% 
   filter(is.na(coachID)==FALSE) %>% 
   arrange(desc(n))
+
+#merge above dataset with masters to get coaches' names
 question4_f = question4 %>% 
   left_join(masters, by = c("coachID")) %>% 
   select(coachID,n,firstName,lastName) %>% 
   unite(Name,firstName,lastName, sep = " " )
 head(question4_f,3)
+
+head(question4_f,6) %>% 
+  ggplot(aes(reorder(Name,n),n, fill = Name))+
+  geom_col()+
+  coord_flip()+
+  labs(x="Coach", y="Number of Stanley Cups Won", title="Coaches that have won the most amount of Stanley Cups")
 ```
 
 #### Question 5   
@@ -259,18 +245,21 @@ What coach had the best full regular season (in terms of number of points per se
 **answer**  
 The total number of possible points for a full regular season is 164 points (2 for a win, 1 for overtime game and 0 for a loss). Therefore, Scotty Bowman had the best full regular season with 131 points in 1995 with the Detroit Red Wings. He is followed by Mike Babcock in 2005 with the Red wings, and by Bruce Boudreau in 2009 with the Washington Capitals.  
 ```{r}
+#merge coaches with teams
+#filter to have number of games = 82
+#join with masters to get coaches names
 question5 = coaches %>% 
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   filter(lgID == "NHL",g == 82) %>% 
-  select(coachID,year,tmID,lgID,g,w,t) %>% 
-  mutate(num_of_points = 2*w +t) %>% 
+  select(coachID,year,tmID,lgID,g,w,t,Pts) %>% 
   left_join(masters, by = "coachID") %>% 
-  select(firstName,lastName, tmID,year,num_of_points) %>% 
+  select(firstName,lastName, tmID,year,Pts) %>% 
   unite(Name,firstName,lastName, sep = " " ) %>% 
-  arrange(desc(num_of_points))
+  arrange(desc(Pts))
 head(question5,3)
+
 head(question5,6) %>% 
-ggplot( aes(reorder(Name,num_of_points),num_of_points)) +
+ggplot( aes(reorder(Name,Pts),Pts)) +
   geom_col(aes(fill=tmID)) +
   labs(title = "Best Full Regular Season by a Coach", y="Number of Points", x="Coach") +
   scale_fill_discrete(name="Team")+
@@ -303,11 +292,14 @@ Coaching tactics that consistently result in a good record?  High PKC / GA (Defe
 **answer**  
 It appears that there are much more defensively oriented teams than offensively oriented team. This is likely to be due to fact that defensively oriented teams throughout history have had higher mean and median win percentages than offensively oriented team.  
 ```{r}
+#create variables for win percentage, defensive and offensive tendancies
+#create variable that classifies each team for each year as either defensively oriented or offensivly oreinted
 question7 <- teams_F %>% 
   mutate(winpercentage = W/G, defense_tendancy = PKC/GA, offense_tendancy = PPG/GF) %>%
   mutate(orientation = ifelse(defense_tendancy > 1.2 | offense_tendancy < .228, "Defense","Offense")) %>% 
   filter(is.na(orientation)==FALSE)
 
+##these give the mean, median and sd for each orientation
 # question7i = question7 %>% filter(orientation == "Defense") 
 # mean(question7i$winpercentage)
 # median(question7i$winpercentage)
