@@ -314,7 +314,7 @@ Since coaches are free to move between teams, we thought a good question to ask 
 
 When fact checking the stats we got we see that Al Arbour coached the New York Islanders from 1973–1986, left for two years and then returned to coach them from 1988-1994. Which indeed adds up to our total of 20 years. Art Ross coached the Boston Bruins from 1924-1945 taking two 2 year gapes in between. 
 
-Our next idea was to take the average performance of the teams under these coaches and compare it with the coaches after for the same teams. This however led to issues as the data was not complete and the coaches were not in the same time frame, leading to the recurring issue of the league being changed between seasons.   
+Our next idea was to take the average performance of the teams under these coaches and compare it with the coaches after for the same teams. This however led to issues as the data was not complete and the coaches were not in the same time frame, leading to the recurring issue of the league being changed between seasons. 
 
 #### Question 4  
 Often times, people debate who is considered as the greatest of all time (GOAT). Usually, this is in the context of individual athletes. However, seeing as this project was looking at coaching data from North American Hockey, we wanted to see which coach can be considered the GOAT.     
