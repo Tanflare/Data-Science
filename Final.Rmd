@@ -16,7 +16,7 @@ library(rvest)
 ```
 
 ## Introduction
-  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data source is a combination of 20 datasets, of which 5 were utilized
+  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data source is a combination of 20 datasets, of which 5 were utilized (masters, coaches, awardCoaches, teams and teamsPost). Furthermore,
 
 ## Data 
 
@@ -27,11 +27,6 @@ awardCoaches <- read_csv("Data/AwardsCoaches.csv")
 teams <- read_csv("Data/Teams.csv")
 teamsPost <- read_csv("Data/TeamsPost.csv")
 
-wiki <- read_html("https://en.wikipedia.org/wiki/List_of_Stanley_Cup_champions")
-
-SC <- html_nodes(wiki, css = "table")
-
-sc_data <- html_table(SC, header = T, fill = T)[[3]]
                  
 ```
 
@@ -160,22 +155,6 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
   facet_wrap(~tmID)
 
-
-champs96_00 <- teams %>% 
-  filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
-  select(year, tmID)
-
-
-teams %>% 
-  filter(year >= 1990) %>% 
-  right_join(champs96_00, by = "tmID") %>% 
-  select(year.x, tmID, G, Pts, year.y) %>% 
-  rename(year = year.x, SCyear = year.y) %>% 
-  mutate(PtsPct = Pts / (2*G)) %>% 
-  ggplot(aes(year, PtsPct, col = tmID)) +
-  geom_line() +
-  geom_point(aes(SCyear, PtsPct), col = "black") +
-  facet_wrap(~tmID)
 
 ```
 
