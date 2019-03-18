@@ -255,7 +255,8 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 #### Question 6  
 Is there any correlation between regular season and post-season performance?   
 
-**answer**  
+**answer**   
+
 ```{r, fig.height=7}
 #Used to get the full names of the abbreviations in teams data set
 abbrevP <- abbrev %>% 
