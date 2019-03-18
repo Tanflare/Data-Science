@@ -145,6 +145,7 @@ scChamps <- teamsPost %>%
 
 #filtering reg season data and adding a column for Pts %.
 #Pts % is the num of pts a team got during the season divided by the total points possible
+#1988 is the first year of the modern playoff structure
 
 regSeason <- teams %>%
   select(year, tmID, Pts, G) %>% 
@@ -165,7 +166,7 @@ summarise(PtsForPlayoffs = mean(Pts/ (2*G)))
 #joining the data sets to plot our data
 data_f <- left_join(data_f, playoffpts)
 
-
+#visualization
 ggplot(data_f) +
   geom_line(aes(year, PtsPct), col = "black") +
   geom_point(aes(year, PtsPct), col = "black") +
@@ -177,15 +178,18 @@ ggplot(data_f) +
 
 
 ```{r}
+#filtering for the original six teams and adding the PtsPct variable
 origSix <- teams %>% 
   filter(tmID == "BOS" | tmID == "MTL" | tmID == "DET" |
            tmID == "CHI" | tmID == "TOR" | tmID == "NYR") %>% 
   select(year, tmID, G, Pts, playoff, name) %>% 
   mutate(PtsPct = Pts / (2*G))
-  
+
+#filtering the years each team won the Stanley Cup  
 SC <- origSix %>% 
   filter(playoff == "SC")
-  
+
+#Visualization utilizing both of the transformed datasets above 
 ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_line() +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
@@ -271,6 +275,21 @@ question6b = coaches %>%
   filter(reg_point_percent > .5, is.na(reg_point_percent) == FALSE, is.na(post_point_percent) == FALSE)
 cor(question6b$post_point_percent,question6b$reg_point_percent)
 ```
+
+
+```{r}
+abbrev <- read_csv("Data/abbrev.csv")
+abbrevP <- abbrev %>% 
+  filter(Type == "Playoff")
+abbrevP
+
+teams %>% 
+  filter(year > 1987, rank == 1) %>% 
+  left_join(abbrevP, by = c("playoff" = "Code"))
+  ggplot(aes(Fullname)) +
+  geom_bar()
+```
+
 
 #### Question 7  
 Coaching tactics that consistently result in a good record?  High PKC / GA (Defensively oriented) or High PPG / GF (Offensively oridented)?    
