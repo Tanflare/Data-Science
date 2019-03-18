@@ -96,7 +96,7 @@ printPlot <- function(tibble) {
 
 #for loop to iterate through teams with coaches that have won an award and plot a graph of their performance for the next 5 years 
 for(x in 1:nrow(Q1coaches)){
-  teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% printPlot(.)
+  teams_F %>%  filter(tmID==Q1coaches$tmID[x] & year >= Q1coaches$year[x] & year <= (Q1coaches$year[x]+5)) %>% printPlot(.)
 }
 
 
