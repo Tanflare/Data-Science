@@ -244,7 +244,6 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 Is there any correlation between regular season and post-season performance?   
 
 **answer**  
-<<<<<<< HEAD
 It does not appear that there is any correlation between regular seson and post-season performance. The correlation coefficient is 0.289 which implies that the relationship is VERY weak.  
 ```{r}
 question6a = coaches %>% 
@@ -263,11 +262,8 @@ cor(question6b$post_point_percent,question6b$reg_point_percent)
 
 
 ```{r, fig.height=7}
-abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
-=======
-```{r, fig.width=15}
 #Used to get the full names of the abbreviations in teams data set
->>>>>>> a96fb631393ea1c9e9676cecb95cb8530064d0ca
+
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
