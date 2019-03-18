@@ -101,7 +101,7 @@ test1 = coaches %>%
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   mutate(won_award = !is.na(award)) %>% 
   select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
-  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   #doesn't look like jack adams started until 1973
+  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   
   arrange(year)
 test1
 
@@ -232,6 +232,9 @@ What coach won the most Stanley Cups?
 **answer**   
 Scotty Bowman has won the most Stanley Cups, followed by Toe Blake and Hap Day.  
 ```{r}
+#merge coaches with awardcoaches and teams
+#filter for only stanley cup winners
+#tally number of appearances in this data frame of stanley cup winners
 question4 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
@@ -242,11 +245,18 @@ question4 = coaches %>%
   tally() %>% 
   filter(is.na(coachID)==FALSE) %>% 
   arrange(desc(n))
+
+#merge above dataset with masters to get coaches' names
 question4_f = question4 %>% 
   left_join(masters, by = c("coachID")) %>% 
   select(coachID,n,firstName,lastName) %>% 
   unite(Name,firstName,lastName, sep = " " )
 head(question4_f,3)
+
+head(question4_f,4) %>% 
+  ggplot(aes(reorder(Name,n),n, fill = Name))+
+  geom_col()+
+  coord_flip()
 ```
 
 #### Question 5   
