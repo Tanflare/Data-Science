@@ -101,7 +101,7 @@ for(x in 1:nrow(Q1coaches)){
 
  
 
-#Question 2  
+#### Question 2  
 How does the team performance change after winning a Stanley Cup?  
 **answer**  
 In the graph below, the black line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the minimum required number of points a team needs to make the playoffs. Therefore, since the average points per game for all but one year since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
