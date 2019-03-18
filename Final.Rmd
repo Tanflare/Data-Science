@@ -167,11 +167,12 @@ data_f <- left_join(data_f, playoffpts)
 
 
 ggplot(data_f) +
-  geom_line(aes(year, PtsPct), col = "blue") +
-  geom_point(aes(year, PtsPct), col = "blue") +
+  geom_line(aes(year, PtsPct), col = "black") +
+  geom_point(aes(year, PtsPct), col = "black") +
   geom_line(aes(year, PtsForPlayoffs), col = "red") +
   geom_point(aes(year, PtsForPlayoffs), col = "red") +
-  labs(title = "Previous Year SC Champion Compared to Points Necessary for Playoffs", xlab = "Year")
+  labs(title = "Previous Year SC Champion Compared to Points Necessary for Playoffs", 
+       x = "Year", y = "Points Percentage")
 ```
 
 
