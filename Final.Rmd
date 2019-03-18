@@ -240,7 +240,7 @@ question5 = coaches %>%
   select(coachID,year,tmID,lgID,g,w,t,Pts) %>% 
   left_join(masters, by = "coachID") %>% 
   select(firstName,lastName, tmID,year,Pts) %>% 
-  unite(Name,firstName,lastName, sep = " " ) %>% 
+  unite(Name,firstName,lastName, sep = " " ) %>%
   arrange(desc(Pts))
 head(question5,3)
 
