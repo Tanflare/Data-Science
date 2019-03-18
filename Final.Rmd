@@ -95,7 +95,7 @@ How does the team performance change after the coach wins the Jack Adams award?
 We are looking at the teams that had a coach win the Jack Adams during the 5 year period from 1995 to 2000, and how well that team did for the following five years. It appears that no general trend is consistently present for these teams so we are unable to conclude anything about tea performance after a coach wins the Jack Adams.   
 ```{r, warning=FALSE}
 #every coach for every year
-test1 = coaches %>% 
+Q1 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
   full_join(teams, by = c("year","tmID","lgID")) %>% 
@@ -103,21 +103,21 @@ test1 = coaches %>%
   select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
   filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   #doesn't look like jack adams started until 1973
   arrange(year)
-test1
+
 
 #all the coaches that have won an award
-test2 <- test1 %>% 
+Q1coaches <- Q1 %>% 
   filter(won_award == TRUE) %>% 
   arrange(year)
-test2
+Q1coaches
 
-
+#function to create graphs of team's performance after coach wins a Jack Adams award
 printPlot <- function(tibble) {
   print(ggplot(tibble, aes(year, ((2*W+T)/(2*G)))) + geom_line() + labs(y ="Points Percentage", title = paste(tibble$tmID[1], "after their coach won Jack Adams award in", tibble$year[1], sep = " ")))
+}
 
-  }
-
-for(x in 1:nrow(test2)){
+#for loop to iterate through teams with coaches that have won an award and plot a graph of their performance for the next 5 years 
+for(x in 1:nrow(Q1coaches)){
   teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% printPlot(.)
 }
 
@@ -213,12 +213,16 @@ What coach coached the same team for the longest number of years?
 **answer**  
 Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
 ```{r}
+#Create lookup table for team names
 teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
 
+#Create lookup table for coach names
 coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
 
+#merge coach names with top 10 coaches (by number of years coached a single team)
 topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
 
+#merge team names with tibble of top coaches and create bar chart
 topCoaches %>% inner_join(., teamNames, by="tmID") %>% 
   ggplot(aes( reorder(nameC, -n),n)) + geom_col(aes(fill=name)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
