@@ -306,6 +306,9 @@ ggplot(question7, aes(x = winpercentage))+
 
 
 #### Question 1      
+We tried to adopt a scalable approach when dealing with question 1. Rather than creating multiple tibles, merging the data and using a faceted plot, we decided to use a function and loop. The loop iterates through a tibble of all the Jack Adam winners in a certain range. It then finds the respective team data from our main table and plots the performance of the team for the next 5 years. This approach allows us to quickly swap out the dataframe passed as an argument so we can tweak the range or other parameters without too much hassle. On the downside the plots take up individual outputs and are pretty bland.
+
+As touched on above we see that almost every team does worse the year after their coach wins a Jack Adams award. We have attributed this to the cumulative effects of team reorginization, expectations, regression effect and that fact that the probability that a team performs significantly well another year in a row is lower than performing averagely.
 
 #### Question 2     
 
