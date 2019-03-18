@@ -246,10 +246,12 @@ Is there any correlation between regular season and post-season performance?
 **answer**  
 
 ```{r, fig.width=15}
+#Used to get the full names of the abbreviations in teams data set
 abbrev <- read_csv("Data/abbrev.csv", col_types = "ccf")
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
+#Taking the #1 ranked team in each conference and seeing how far they went in the playoffs
 teams %>% 
   filter(year > 1987, rank == 1) %>% 
   left_join(abbrevP, by = c("playoff" = "Code")) %>% 
