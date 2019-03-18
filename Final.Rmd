@@ -262,9 +262,10 @@ Is there any correlation between regular season and post-season performance?
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
-#Taking the #1 ranked team in each conference and seeing how far they went in the playoffs
+#Taking the #1 ranked team in the regular season and seeing how far they went in the playoffs
 teams %>% 
-  filter(year > 1987, rank == 1) %>% 
+  group_by(year) %>% 
+  filter(year > 1993, Pts == max(Pts)) %>%
   left_join(abbrevP, by = c("playoff" = "Code")) %>% 
   ggplot(aes(fct_infreq(Fullname))) +
   geom_bar() +
