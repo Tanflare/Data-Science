@@ -255,15 +255,17 @@ ggplot( aes(reorder(Name,Pts),Pts)) +
 #### Question 6  
 Is there any correlation between regular season and post-season performance?   
 
-**answer**  
+**answer**   
+From the data, we can see that the best team in the regular season isn't always the best team in the postseason. The majority of the time the best team doesn't even make it to the Stanley Cup finals.
 ```{r, fig.height=7}
 #Used to get the full names of the abbreviations in teams data set
 abbrevP <- abbrev %>% 
   filter(Type == "Playoffs")
 
-#Taking the #1 ranked team in each conference and seeing how far they went in the playoffs
+#Taking the #1 ranked team in the regular season and seeing how far they went in the playoffs
 teams %>% 
-  filter(year > 1987, rank == 1) %>% 
+  group_by(year) %>% 
+  filter(year > 1993, Pts == max(Pts)) %>%
   left_join(abbrevP, by = c("playoff" = "Code")) %>% 
   ggplot(aes(fct_infreq(Fullname))) +
   geom_bar() +
@@ -285,15 +287,15 @@ question7 <- teams_F %>%
   mutate(orientation = ifelse(defense_tendancy > 1.2 | offense_tendancy < .228, "Defense","Offense")) %>% 
   filter(is.na(orientation)==FALSE)
 
-##these give the mean, median and sd for each orientation
-# question7i = question7 %>% filter(orientation == "Defense") 
-# mean(question7i$winpercentage)
-# median(question7i$winpercentage)
-# sd(question7i$winpercentage)
-# question7ii = question7 %>% filter(orientation == "Offense") 
-# mean(question7ii$winpercentage)
-# median(question7ii$winpercentage)
-# sd(question7ii$winpercentage)
+#these give the mean, median and sd for each orientation
+question7i = question7 %>% filter(orientation == "Defense")
+mean(question7i$winpercentage)
+median(question7i$winpercentage)
+sd(question7i$winpercentage)
+question7ii = question7 %>% filter(orientation == "Offense")
+mean(question7ii$winpercentage)
+median(question7ii$winpercentage)
+sd(question7ii$winpercentage)
 
 
 ggplot(question7, aes(x = winpercentage))+
@@ -303,6 +305,7 @@ ggplot(question7, aes(x = winpercentage))+
 ## Conclusion
 Each of the research questions has been answered in body of the project. The main take-aways from these questions are that much like in other major league sports, team success in the NHL varies from year to year. For example, after a team's coach has won the Jack Adams award (given to the best coach that season), their success tends to drop off at some point in the next 5 years. In terms of immediate success, teams that have won a Stanley Cup have almost always qualified for post season play for the following season (only one exception since the adoption of the modern playoff system in 1988).
 
+<<<<<<< HEAD
 ##Q1.)
 
 
@@ -326,6 +329,16 @@ Our next idea was to take the average performance of the teams under these coach
 
 
 ##Q7.)
+=======
+Q1.)
+Q2.)
+Q3.)
+Q4.) Scotty Bowman has won the most Stanley Cups in NHL history with a total of 9 cups. Bowman is followed by Toe Blake who has won 8 cups and Hap Day who has won 5 cups.   
+Q5.) In 1995, Scotty Bowman, who at the time was coaching the Detroit Red Wings, had the best full regular season to date in NHL history. His team earned 131 points out of 164 possible (79.9%). The second best full regular season was in 2005, also by the Detroit Red Wings under coach Mike Babcock (124 points). Bruce Boudreau has the third best full regular season with 121 points with the 2009 Washington Capitals.    
+Q6.) For this question we needed a way to filter for the best team during the regular season. To do this we grouped by the variable year then filtered for years 1994+ and the team that had the max number of points each year. From there we joined with the abbreviations data set to ensure we label our bars correctly. The abbreviations data set contains numerous different abbreviations covering all facets of hockey, so to ensure we are only joining the relevant ones we filtered the data set for only the "playoff" abbreviations. From there we plotted how far each team went in the playoffs.
+Q7.) The qualification for being labeled as a defensively orriented team was chosen to have a penalty kill chance to goals against ratio above 1.2 or a power play goal to goals for ratio below .228. These values were chosen by sorting the created dataset after creating these ratios and looking for the approximate middle value of these ratios. From this, we see that there have been much more defensively oriented teams throughout history and that they have historically done better than their offensively oriented counterparts. For defensively oriented teams, their mean and median win percentage are 0.461 and 0.463 respectively, with a standard deviation of 0.107. For offensively oriented teams, their mean and median win percentage are 0.357 and 0.363 respectively, with a standard deviation of 0.105.     
+
+>>>>>>> 4d9a0da90720101fa74802aaff13f43cc6478bdf
 
 In respect to our methods of tidying and analysis:
 We ended up splitting our many datasets into even smaller dataframes with the desired variables. This left us with a working environment a little too full of dataframes. In the future it might be wiser to overwrite and only keep our desired dataframes rather than keeping both. 
