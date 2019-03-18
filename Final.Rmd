@@ -16,7 +16,7 @@ library(rvest)
 ```
 
 ## Introduction
-  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data source is a combination of 20 datasets, of which 5 were utilized (masters, coaches, awardCoaches, teams and teamsPost). Furthermore,
+  The datasets used for this project were derived from the Professional Hockey Database from Kaggle (https://www.kaggle.com/open-source-sports/professional-hockey-database). This data, originally sourced from The Hockey Database from Open Source Sports, is a collection of historical statistics from men's professional hockey teams in North America since 1917 until 2011. Althought there were 20 datasets within the source, of which 5 were utilized (masters, coaches, awardCoaches, teams and teamsPost). 
 
 ## Data 
 
