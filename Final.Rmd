@@ -37,18 +37,11 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 #selecting NHL
 teams_F <- teams %>% filter(lgID == "NHL")
 teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
-
-# # | tmID=="LAK" | tmID=="BOS"
-# teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
-# 
-# teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
-
 ```
 
 
 ```{r,warning=FALSE,message=FALSE}
 #Coach Awards Data set
-
 awardCoaches2 <- awardCoaches %>% 
   filter(award == "Jack Adams") %>% 
   select(-note)
@@ -57,9 +50,6 @@ masters_names <- masters %>%
   select(coachID, firstName, lastName)
 
 awardCoaches_f <- left_join(awardCoaches2, masters_names)
-
-#Postseason Data set
-
 ```
 
 
