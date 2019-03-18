@@ -16,7 +16,7 @@ library(rvest)
 ```
 
 ## Introduction
-  The datasets used for this project were derived from https://www.kaggle.com/open-source-sports/professional-hockey-database
+  The datasets used for this project were derived from Professional Hockey Database (https://www.kaggle.com/open-source-sports/professional-hockey-database)
 
 ## Data 
 
