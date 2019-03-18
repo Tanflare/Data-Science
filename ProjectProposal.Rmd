@@ -47,7 +47,7 @@ Our data will be sourced from Kaggle. This is a large hockey database that gives
   + stint  
   
 * From this, we will create the following variables:
-  + number_of_years_in_league: number of years each coach has been in league
+  + number_of_years_in_leagu: number of years each coach has been in league
   + reg_overal_record:  overall regular season record for each coach
   + post_overal_record: overall post-season record for each coach
   
