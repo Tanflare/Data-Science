@@ -1,5 +1,6 @@
 ---
-title: "Final"
+title: "An Exploration of NHL Coaching Statistics"
+name: "Pete Schultz, Tanush Samson, Zach Morales"
 output: html_document
 ---
 
@@ -13,6 +14,9 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(rvest)
 ```
+
+## Introduction
+  The datasets used for this project were derived from https://www.kaggle.com/open-source-sports/professional-hockey-database
 
 ## Data 
 
@@ -36,18 +40,11 @@ sc_data <- html_table(SC, header = T, fill = T)[[3]]
 #selecting NHL
 teams_F <- teams %>% filter(lgID == "NHL")
 teamsPost_F <- teamsPost %>% filter(lgID == "NHL")
-
-# # | tmID=="LAK" | tmID=="BOS"
-# teams_F %>% filter(tmID=="MTL") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=(playoff=="SC"))) + geom_line(alpha =0.6) + labs(y="Wins Proportion") + labs(title = "MTL Record")
-# 
-# teams_F %>% filter(playoff =="SC") %>% ggplot(aes(year, W/G)) + geom_point(aes(color=tmID)) + geom_smooth()+ labs(title = "Stanley Cup Winners", y="Proportion of games won")
-
 ```
 
 
 ```{r,warning=FALSE,message=FALSE}
 #Coach Awards Data set
-
 awardCoaches2 <- awardCoaches %>% 
   filter(award == "Jack Adams") %>% 
   select(-note)
@@ -56,37 +53,8 @@ masters_names <- masters %>%
   select(coachID, firstName, lastName)
 
 awardCoaches_f <- left_join(awardCoaches2, masters_names)
-
-#Postseason Data set
-
 ```
 
-```{r,warning=FALSE}
-coaches = coaches %>% filter(lgID == "NHL")
-coaches1 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(number_of_years_in_league = (1+max(year)-min(year)))
-
-coaches2 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(reg_overall_win = sum(w), reg_overall_loss = sum(l), reg_overall_tie = sum(t), reg_num_game = sum(g))
-
-coaches3 = coaches %>% 
-  filter(lgID == "NHL") %>% 
-  group_by(coachID) %>% 
-  summarise(post_overall_win = sum(postw), post_overall_loss = sum(postl), post_overall_tie = sum(postt), post_num_game = sum(postg))
-
-coaches4 = coaches1 %>% 
-  full_join(coaches2, by = "coachID") %>%
-  full_join(coaches3, by = "coachID")
-
-coaches_f = coaches4 %>% 
-  mutate(reg_win_percent = (reg_overall_win/reg_num_game), post_win_percent = post_overall_win/post_num_game) %>% 
-  select(coachID:reg_overall_tie, reg_win_percent, post_overall_win:post_overall_tie,post_win_percent)
-
-```
 
 #### Question 1  
 How does the team performance change after the coach wins the Jack Adams award?   
@@ -95,30 +63,30 @@ How does the team performance change after the coach wins the Jack Adams award?
 We are looking at the teams that had a coach win the Jack Adams during the 5 year period from 1995 to 2000, and how well that team did for the following five years. It appears that no general trend is consistently present for these teams so we are unable to conclude anything about tea performance after a coach wins the Jack Adams.   
 ```{r, warning=FALSE}
 #every coach for every year
-test1 = coaches %>% 
+Q1 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   mutate(won_award = !is.na(award)) %>% 
   select(coachID,year,tmID,g,w,l,t,award,won_award) %>% 
-  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   #doesn't look like jack adams started until 1973
+  filter(is.na(coachID)==FALSE, year >= 1995, year <=2000) %>%                   
   arrange(year)
-test1
+
 
 #all the coaches that have won an award
-test2 <- test1 %>% 
+Q1coaches <- Q1 %>% 
   filter(won_award == TRUE) %>% 
   arrange(year)
-test2
+Q1coaches
 
-
+#function to create graphs of team's performance after coach wins a Jack Adams award
 printPlot <- function(tibble) {
   print(ggplot(tibble, aes(year, ((2*W+T)/(2*G)))) + geom_line() + labs(y ="Points Percentage", title = paste(tibble$tmID[1], "after their coach won Jack Adams award in", tibble$year[1], sep = " ")))
+}
 
-  }
-
-for(x in 1:nrow(test2)){
-  teams_F %>%  filter(tmID==test2$tmID[x] & year >= test2$year[x] & year <= (test2$year[x]+5)) %>% printPlot(.)
+#for loop to iterate through teams with coaches that have won an award and plot a graph of their performance for the next 5 years 
+for(x in 1:nrow(Q1coaches)){
+  teams_F %>%  filter(tmID==Q1coaches$tmID[x] & year >= Q1coaches$year[x] & year <= (Q1coaches$year[x]+5)) %>% printPlot(.)
 }
 
 
@@ -131,9 +99,6 @@ How does the team performance change after winning a Stanley Cup?
 **answer**  
 In the graph below, the blue line represents the percentage of total possible points per game that the team that won the Stanley Cup the previous year earns. The red line represents the percentage of total possible  points per game for the rest of the league. Therefore, since the average points per game for all but three years since 1987 is higher for the reigning league champions than the rest of the NHL, team performance tends to remain high for teams that have just won a Stanley Cup the year before.  
 ```{r, warning=FALSE, message=FALSE}
-
-#### Question 2   
-
 #stantley cup champion, year + 1 to be able to join with another dataset
 #to see how they do the next year
 
@@ -194,6 +159,24 @@ ggplot(origSix, aes(year, PtsPct, col = tmID)) +
   geom_line() +
   geom_point(data = SC, aes(year, PtsPct), col = "black") +
   facet_wrap(~tmID)
+
+
+champs96_00 <- teams %>% 
+  filter(year >= 1996, year <= 2000, playoff == "SC") %>% 
+  select(year, tmID)
+
+
+teams %>% 
+  filter(year >= 1990) %>% 
+  right_join(champs96_00, by = "tmID") %>% 
+  select(year.x, tmID, G, Pts, year.y) %>% 
+  rename(year = year.x, SCyear = year.y) %>% 
+  mutate(PtsPct = Pts / (2*G)) %>% 
+  ggplot(aes(year, PtsPct, col = tmID)) +
+  geom_line() +
+  geom_point(aes(SCyear, PtsPct), col = "black") +
+  facet_wrap(~tmID)
+
 ```
 
 #### Question 3  
@@ -202,12 +185,16 @@ What coach coached the same team for the longest number of years?
 **answer**  
 Al Arbour has the record for coaching the same NHL team for the longest number of years (New York Islanders for 20 years), followed by Art Ross with the Boston Bruins for 16 years.   
 ```{r}
+#Create lookup table for team names
 teamNames <- teams_F %>% select(c("tmID", "name")) %>% unique() %>% filter(name!="Chicago Black Hawks")
 
+#Create lookup table for coach names
 coaches_names <- masters %>% select("coachID", "firstName", "lastName") %>% filter(!is.na(coachID))
 
+#merge coach names with top 10 coaches (by number of years coached a single team)
 topCoaches<- coaches %>% group_by(coachID, tmID) %>%  tally() %>% arrange(desc(n)) %>% inner_join(., coaches_names, by="coachID") %>% mutate(nameC = paste(firstName, lastName, sep=" ")) %>% head(10)
 
+#merge team names with tibble of top coaches and create bar chart
 topCoaches %>% inner_join(., teamNames, by="tmID") %>% 
   ggplot(aes( reorder(nameC, -n),n)) + geom_col(aes(fill=name)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -221,6 +208,9 @@ What coach won the most Stanley Cups?
 **answer**   
 Scotty Bowman has won the most Stanley Cups, followed by Toe Blake and Hap Day.  
 ```{r}
+#merge coaches with awardcoaches and teams
+#filter for only stanley cup winners
+#tally number of appearances in this data frame of stanley cup winners
 question4 = coaches %>% 
   full_join(awardCoaches, by = c("coachID","year","lgID")) %>% 
   filter(lgID == "NHL") %>% 
@@ -231,11 +221,19 @@ question4 = coaches %>%
   tally() %>% 
   filter(is.na(coachID)==FALSE) %>% 
   arrange(desc(n))
+
+#merge above dataset with masters to get coaches' names
 question4_f = question4 %>% 
   left_join(masters, by = c("coachID")) %>% 
   select(coachID,n,firstName,lastName) %>% 
   unite(Name,firstName,lastName, sep = " " )
 head(question4_f,3)
+
+head(question4_f,6) %>% 
+  ggplot(aes(reorder(Name,n),n, fill = Name))+
+  geom_col()+
+  coord_flip()+
+  labs(x="Coach", y="Number of Stanley Cups Won", title="Coaches that have won the most amount of Stanley Cups")
 ```
 
 #### Question 5   
@@ -244,16 +242,25 @@ What coach had the best full regular season (in terms of number of points per se
 **answer**  
 The total number of possible points for a full regular season is 164 points (2 for a win, 1 for overtime game and 0 for a loss). Therefore, Scotty Bowman had the best full regular season with 131 points in 1995 with the Detroit Red Wings. He is followed by Mike Babcock in 2005 with the Red wings, and by Bruce Boudreau in 2009 with the Washington Capitals.  
 ```{r}
+#merge coaches with teams
+#filter to have number of games = 82
+#join with masters to get coaches names
 question5 = coaches %>% 
   full_join(teams, by = c("year","tmID","lgID")) %>% 
   filter(lgID == "NHL",g == 82) %>% 
-  select(coachID,year,tmID,lgID,g,w,t) %>% 
-  mutate(num_of_points = 2*w +t) %>% 
+  select(coachID,year,tmID,lgID,g,w,t,Pts) %>% 
   left_join(masters, by = "coachID") %>% 
-  select(firstName,lastName, tmID,year,num_of_points) %>% 
+  select(firstName,lastName, tmID,year,Pts) %>% 
   unite(Name,firstName,lastName, sep = " " ) %>% 
-  arrange(desc(num_of_points))
+  arrange(desc(Pts))
 head(question5,3)
+
+head(question5,6) %>% 
+ggplot( aes(reorder(Name,Pts),Pts)) +
+  geom_col(aes(fill=tmID)) +
+  labs(title = "Best Full Regular Season by a Coach", y="Number of Points", x="Coach") +
+  scale_fill_discrete(name="Team")+
+  coord_flip()
 ```
 
 #### Question 6  
@@ -297,19 +304,22 @@ Coaching tactics that consistently result in a good record?  High PKC / GA (Defe
 **answer**  
 It appears that there are much more defensively oriented teams than offensively oriented team. This is likely to be due to fact that defensively oriented teams throughout history have had higher mean and median win percentages than offensively oriented team.  
 ```{r}
+#create variables for win percentage, defensive and offensive tendancies
+#create variable that classifies each team for each year as either defensively oriented or offensivly oreinted
 question7 <- teams_F %>% 
   mutate(winpercentage = W/G, defense_tendancy = PKC/GA, offense_tendancy = PPG/GF) %>%
   mutate(orientation = ifelse(defense_tendancy > 1.2 | offense_tendancy < .228, "Defense","Offense")) %>% 
   filter(is.na(orientation)==FALSE)
 
-question7i = question7 %>% filter(orientation == "Defense") 
-mean(question7i$winpercentage)
-median(question7i$winpercentage)
-sd(question7i$winpercentage)
-question7ii = question7 %>% filter(orientation == "Offense") 
-mean(question7ii$winpercentage)
-median(question7ii$winpercentage)
-sd(question7ii$winpercentage)
+##these give the mean, median and sd for each orientation
+# question7i = question7 %>% filter(orientation == "Defense") 
+# mean(question7i$winpercentage)
+# median(question7i$winpercentage)
+# sd(question7i$winpercentage)
+# question7ii = question7 %>% filter(orientation == "Offense") 
+# mean(question7ii$winpercentage)
+# median(question7ii$winpercentage)
+# sd(question7ii$winpercentage)
 
 
 ggplot(question7, aes(x = winpercentage))+
