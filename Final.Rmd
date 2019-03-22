@@ -302,13 +302,12 @@ ggplot(question7, aes(x = winpercentage))+
 ## Conclusion
 
 
-<<<<<<< HEAD
 #### Q1.
 We tried to adopt a scalable approach when dealing with question 1. Rather than creating multiple tibbles, merging the data and using a faceted plot, we decided to use a function and loop. The loop iterates through a tibble of all the Jack Adam winners in a certain range. It then finds the respective team data from our main table and plots the performance of the team for the next 5 years. This approach allows us to quickly swap out the dataframe passed as an argument so we can tweak the range or other parameters without too much hassle. On the downside the plots take up individual outputs and are pretty bland.
-=======
+
 #### Question 1      
 We tried to adopt a scalable approach when dealing with question 1. Rather than creating multiple tibles, merging the data and using a faceted plot, we decided to use a function and loop. The loop iterates through a tibble of all the Jack Adam winners in a certain range. It then finds the respective team data from our main table and plots the performance of the team for the next 5 years. This approach allows us to quickly swap out the dataframe passed as an argument so we can tweak the range or other parameters without too much hassle. On the downside the plots take up individual outputs and are pretty bland.
->>>>>>> be8395d2d468a9025739bcfc8c7edb35da642dff
+
 
 As touched on above we see that almost every team does worse the year after their coach wins a Jack Adams award. We have attributed this to the cumulative effects of team reorganization, expectations, regression effect and that fact that the probability that a team performs significantly well another year in a row is lower than performing averagely.
 
@@ -333,15 +332,14 @@ In 1995, Scotty Bowman, who at the time was coaching the Detroit Red Wings, had 
 #### Question 6   
 For this question we needed a way to filter for the best team during the regular season. To do this we grouped by the variable year then filtered for years 1994+ and the team that had the max number of points each year. From there we joined with the abbreviations data set to ensure we label our bars correctly. The abbreviations data set contains numerous different abbreviations covering all facets of hockey, so to ensure we are only joining the relevant ones we filtered the data set for only the "playoff" abbreviations. From there we plotted how far each team went in the playoffs.
 
-<<<<<<< HEAD
+
 #### Q7.
 The qualification for being labeled as a defensively oriented team was chosen to have a penalty kill chance to goals against ratio above 1.2 or a power play goal to goals for ratio below .228. These values were chosen by sorting the created dataset after creating these ratios and looking for the approximate middle value of these ratios. From this, we see that there have been much more defensively oriented teams throughout history and that they have historically done better than their offensively oriented counterparts. For defensively oriented teams, their mean and median win percentage are 0.461 and 0.463 respectively, with a standard deviation of 0.107. For offensively oriented teams, their mean and median win percentage are 0.357 and 0.363 respectively, with a standard deviation of 0.105.     
-=======
+
 #### Question 7    
 A good way to ensure the most efficient team possible is to look at which tactics produce the best results. In this question, we were interested in seeing which overall strategies (offensively/defensively oriented) yield the highest win percentages in the NHL.     
 
 The qualification for being labeled as a defensively orriented team was chosen to have a penalty kill chance to goals against ratio above 1.2 or a power play goal to goals for ratio below .228. These values were chosen by sorting the created dataset after creating these ratios and looking for the approximate middle value of these ratios. From this, we see that there have been much more defensively oriented teams throughout history and that they have historically done better than their offensively oriented counterparts. For defensively oriented teams, their mean and median win percentage are 0.461 and 0.463 respectively, with a standard deviation of 0.107. For offensively oriented teams, their mean and median win percentage are 0.357 and 0.363 respectively, with a standard deviation of 0.105.     
->>>>>>> be8395d2d468a9025739bcfc8c7edb35da642dff
 
 
 ##### Final Thoughts    
