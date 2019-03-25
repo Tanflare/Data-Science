@@ -15,3 +15,6 @@ Using these datasets, we were able to answer the following research questions fo
 ```
 
 It is important to highlight that the points system in hockey is as follows: a win is worth 2 points, an overtime loss is worth 1 point, and a straight loss is worth 0 points. Furthermore, the modern NHL playoff (based off of the team with the most amount of points in their division at the end of the regular season, plus wild cards from each conference) structure started in 1988. Lastly, in 2004, the NHL experienced a lockout and had no games as a result.
+
+Report:   
+https://github.com/Tanflare/Data-Science/blob/master/An%20Exploration%20of%20NHL%20Coaching%20Statistics.pdf
