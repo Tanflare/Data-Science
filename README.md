@@ -18,3 +18,6 @@ It is important to highlight that the points system in hockey is as follows: a w
 
 Report:   
 https://github.com/Tanflare/Data-Science/blob/master/An%20Exploration%20of%20NHL%20Coaching%20Statistics.pdf
+
+Presentation:  
+https://github.com/Tanflare/Data-Science/blob/master/presentation/Final%20Presentation.pdf
